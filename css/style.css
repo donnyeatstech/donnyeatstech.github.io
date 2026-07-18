@@ -101,7 +101,7 @@ nav .nav-links a.active {
 /* Social link grid */
 .link-grid {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 48px;
 }
 
@@ -109,11 +109,11 @@ nav .nav-links a.active {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 8px;
   color: var(--text-muted);
   transition: all 0.2s;
 }
@@ -126,8 +126,8 @@ nav .nav-links a.active {
 }
 
 .link-grid .social-icon {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
 }
 
 /* Section headers */
@@ -387,15 +387,15 @@ footer .footer-links a:hover { color: var(--accent); }
 .btn-outline {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 20px;
+  gap: 4px;
+  padding: 6px 14px;
   background: var(--bg-card);
   border: 1px solid var(--accent);
   border-radius: 8px;
   color: var(--accent);
   text-decoration: none;
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   transition: all 0.2s;
 }
 
