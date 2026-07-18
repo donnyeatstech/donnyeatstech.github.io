@@ -71,6 +71,11 @@ a { color: inherit; }
   padding: 0 24px;
 }
 
+/* Bottom breathing room (home has no footer) */
+main.container {
+  padding-bottom: 88px;
+}
+
 /* Nav */
 nav {
   padding: 20px 0;
@@ -156,7 +161,6 @@ nav .nav-links a.active {
   color: var(--text-muted);
   font-size: 1.02rem;
   margin-bottom: 0;
-  max-width: 600px;
 }
 
 /* Social links — bare, understated glyphs (no boxes) */
@@ -448,7 +452,7 @@ nav .nav-links a.active {
 footer {
   border-top: 1px solid var(--border);
   padding: 32px 0;
-  margin-top: 80px;
+  margin-top: 0;
 }
 
 footer .container {
@@ -570,6 +574,7 @@ footer .footer-links a:hover { color: var(--accent); }
 /* Responsive */
 @media (max-width: 640px) {
   .hero .hero-title { font-size: 1.8rem; }
+  .hero-top { flex-direction: column; align-items: flex-start; gap: 18px; }
   nav .container { flex-direction: column; align-items: flex-start; gap: 14px; }
   .nav-right { width: 100%; justify-content: space-between; gap: 16px; }
   nav .nav-links { gap: 16px; }
