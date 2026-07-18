@@ -261,6 +261,18 @@ nav .nav-links a.active {
   border-top: 1px solid var(--border);
 }
 
+.now-prev {
+  display: inline-block;
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.now-prev:hover { color: var(--accent); }
+
 /* Project cards */
 .project-list { margin-bottom: 64px; }
 
