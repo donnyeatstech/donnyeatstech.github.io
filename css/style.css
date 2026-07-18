@@ -151,8 +151,6 @@ nav .nav-links a.active {
   max-width: 600px;
 }
 
-.hero .bio strong { color: var(--text); font-weight: 600; }
-
 /* Social links — bare, understated glyphs (no boxes) */
 .link-grid {
   display: flex;
@@ -250,8 +248,6 @@ nav .nav-links a.active {
   padding-top: 8px;
   border-top: 1px solid var(--border);
 }
-
-.now-co strong { color: var(--text-muted); font-weight: 600; }
 
 /* Project cards */
 .project-list { margin-bottom: 64px; }
@@ -427,7 +423,6 @@ nav .nav-links a.active {
   padding-left: 12px;
   margin-bottom: 10px;
 }
-.xp-co strong { color: var(--text); }
 
 .xp-stack {
   font-size: 0.82rem;
