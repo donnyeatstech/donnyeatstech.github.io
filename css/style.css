@@ -80,7 +80,7 @@ main.container {
 nav {
   padding: 20px 0;
   border-bottom: 1px solid var(--border);
-  margin-bottom: 64px;
+  margin-bottom: 40px;
 }
 
 nav .container {
@@ -126,7 +126,7 @@ nav .nav-links a.active {
 
 /* Hero */
 .hero {
-  margin-bottom: 72px;
+  margin-bottom: 44px;
 }
 
 .hero .hero-title {
@@ -198,7 +198,7 @@ nav .nav-links a.active {
 
 /* "Now" / recent work card (home) */
 .now {
-  margin-bottom: 72px;
+  margin-bottom: 44px;
 }
 
 .now-label {
