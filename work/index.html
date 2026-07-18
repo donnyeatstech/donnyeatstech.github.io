@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>work — donny eats tech</title>
+  <meta name="description" content="Work experience — backend engineering, distributed systems, and infrastructure.">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>">
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <a href="/" class="logo">donny eats tech</a>
+      <ul class="nav-links">
+        <li><a href="/">home</a></li>
+        <li><a href="/writing/">writing</a></li>
+        <li><a href="/blog/">blog</a></li>
+        <li><a href="/work/" class="active">work</a></li>
+        <li><a href="/projects/">projects</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="page-header">
+      <h1>work</h1>
+      <p>Backend engineering and infrastructure — building systems that move fast without breaking.</p>
+    </section>
+
+    <section>
+      <div class="writing-list">
+        <div class="writing-item" style="cursor:default; padding-left:0;">
+          <div class="writing-meta">oct 2025 – present · bengaluru</div>
+          <div class="writing-title">Senior Software Engineer — Clientell</div>
+          <div style="font-size:0.85rem; color:var(--text-dim); margin-bottom:8px; font-family:var(--font-mono);">Python, FastAPI, PostgreSQL, Redis, GCP, Langfuse, OpenTelemetry</div>
+          <div class="project-desc" style="margin-top:8px;">
+            Own the agent execution path end to end — tool-call latency to stream delivery to incident response.
+            Built the Salesforce org indexing platform as an orchestrator-worker system on Pub/Sub handling ~28k work items per run,
+            workers autoscaling to 100 Cloud Run instances. Tool-call latency dropped from ~4s to ~800ms.
+          </div>
+        </div>
+
+        <div class="writing-item" style="cursor:default; padding-left:0;">
+          <div class="writing-meta">jan 2025 – oct 2025 · bengaluru</div>
+          <div class="writing-title">Lead Backend Engineer — Fae</div>
+          <div style="font-size:0.85rem; color:var(--text-dim); margin-bottom:8px; font-family:var(--font-mono);">FastAPI, Go, PostgreSQL, Docker, AWS ECS, GitHub Actions</div>
+          <div class="project-desc" style="margin-top:8px;">
+            Rewrote a legacy NestJS codebase into a two-service FastAPI monolith with dependency injection,
+            dropping refactors worth 8-10 story points per sprint. Implemented ABAC authorization with audit logging.
+            Halved payment execution latency from ~5s to ~2.5s by moving external calls off the critical path.
+          </div>
+        </div>
+
+        <div class="writing-item" style="cursor:default; padding-left:0;">
+          <div class="writing-meta">oct 2022 – nov 2023 · bengaluru</div>
+          <div class="writing-title">Software Engineer — Gida Technologies</div>
+          <div style="font-size:0.85rem; color:var(--text-dim); margin-bottom:8px; font-family:var(--font-mono);">Python, Node.js, Google BigQuery, PostgreSQL</div>
+          <div class="project-desc" style="margin-top:8px;">
+            Built a daily ETL pipeline ingesting ~600k health insurance records into BigQuery with PGP encryption,
+            meeting ABDM regulatory requirements. Automated recurring analyst reporting, removing ~20 hours/week of manual effort.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top:48px;">
+      <h2 class="section-title">→ career break</h2>
+      <div class="project-list">
+        <div class="project-card" style="cursor:default; text-decoration:none; color:var(--text);">
+          <div class="project-name">nov 2023 – dec 2024</div>
+          <div class="project-desc">
+            Built a Redis-protocol-compatible in-memory server (GET/SET, HGET/HSET, ZADD)
+            with automatic key expiration and SQLite durability. Admitted to NYU Masters program (declined).
+            Deep-dived into Go, distributed systems, operating systems, and networking.
+          </div>
+          <div class="project-lang">go, distributed systems, os, networking</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <span>© 2026 Donny · donnyeatstech</span>
+      <div class="footer-links">
+        <a href="https://substack.com/@donnyeatstech" target="_blank" rel="noopener">substack</a>
+        <a href="https://x.com/donnyeatstech" target="_blank" rel="noopener">x</a>
+        <a href="https://github.com/donnyeatstech" target="_blank" rel="noopener">github</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
