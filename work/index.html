@@ -3,76 +3,123 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>work — donny eats tech</title>
-  <meta name="description" content="Work experience — backend engineering, distributed systems, and infrastructure.">
+
+  <title>Work — Donny · Backend Engineer (Distributed Systems &amp; Infrastructure)</title>
+  <meta name="description" content="Donny's work history — backend engineering, distributed systems, and infrastructure. Senior Software Engineer at Clientell, previously Lead Backend Engineer at Fae. Python, Go, PostgreSQL, GCP, AWS.">
+  <meta name="author" content="Donny">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#1d2021">
+  <link rel="canonical" href="https://donnyeatstech.com/work/">
+
+  <meta property="og:type" content="profile">
+  <meta property="og:site_name" content="donny eats tech">
+  <meta property="og:title" content="Work — Donny · Backend Engineer">
+  <meta property="og:description" content="Backend engineering, distributed systems, and infrastructure. Senior Software Engineer at Clientell.">
+  <meta property="og:url" content="https://donnyeatstech.com/work/">
+  <meta property="og:image" content="https://donnyeatstech.com/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@donnyeatstech">
+  <meta name="twitter:title" content="Work — Donny · Backend Engineer">
+  <meta name="twitter:description" content="Backend engineering, distributed systems, and infrastructure.">
+  <meta name="twitter:image" content="https://donnyeatstech.com/og.png">
+
   <link rel="stylesheet" href="/css/style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "url": "https://donnyeatstech.com/work/",
+    "mainEntity": {
+      "@type": "Person",
+      "name": "Donny",
+      "url": "https://donnyeatstech.com/",
+      "jobTitle": "Senior Software Engineer",
+      "knowsAbout": ["Backend engineering", "Distributed systems", "Databases", "Infrastructure", "PostgreSQL", "Go", "Python", "GCP", "AWS", "Observability"],
+      "hasOccupation": [
+        {
+          "@type": "Occupation",
+          "name": "Senior Software Engineer",
+          "occupationLocation": { "@type": "City", "name": "Bengaluru" }
+        }
+      ],
+      "worksFor": { "@type": "Organization", "name": "Clientell", "url": "https://www.getclientell.com" },
+      "sameAs": [
+        "https://substack.com/@donnyeatstech",
+        "https://x.com/donnyeatstech",
+        "https://github.com/donnyeatstech"
+      ]
+    }
+  }
+  </script>
 </head>
 <body>
+  <a href="#main" class="skip-link">skip to content</a>
+
   <nav>
     <div class="container">
       <a href="/" class="logo">donny eats tech</a>
-      <ul class="nav-links">
-        <li><a href="/">home</a></li>
-        <li><a href="/writing/">writing</a></li>
-        <li><a href="/work/" class="active">work</a></li>
-        <li><a href="/projects/">projects</a></li>
-      </ul>
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/writing/">writing</a></li>
+          <li><a href="/work/" class="active">work</a></li>
+          <li><a href="/projects/">projects</a></li>
+        </ul>
+        <a href="/work/resume.pdf" target="_blank" rel="noopener" class="btn-outline">↓ resume</a>
+      </div>
     </div>
   </nav>
 
-  <main class="container">
-    <section class="page-header">
+  <main class="container" id="main">
+    <header class="page-header">
       <h1>work</h1>
-      <p>Backend engineering and infrastructure — building systems that move fast without breaking.</p>
-      <p style="margin-top:12px;">
-        <a href="/work/resume.pdf" target="_blank" rel="noopener" class="btn-outline">
-          ↓ resume
-        </a>
-      </p>
-    </section>
+      <p>Backend engineer — distributed systems and infrastructure. I build systems that move fast without breaking: agent execution paths, indexing platforms, payments, and data pipelines.</p>
+    </header>
 
     <section>
-      <div class="writing-list">
-        <div class="writing-item" style="cursor:default; padding-left:0;">
-          <div class="writing-meta">oct 2025 – present · bengaluru</div>
-          <div class="writing-title">Senior Software Engineer — <a href="https://www.getclientell.com" target="_blank" rel="noopener" style="color:inherit; text-decoration:underline; text-underline-offset:2px;">Clientell</a></div>
-          <div class="project-desc" style="margin-top:0; margin-bottom:8px; font-size:0.85rem; color:var(--text-dim); border-left:2px solid var(--accent); padding-left:12px; line-height:1.5;">
-            <strong style="color:var(--text);">AI agent for Salesforce.</strong> Founded 2021 (Wilmington, DE). $3.2M+ raised. Salesforce AppExchange Partner. 500+ orgs deployed including Notion, Eventbrite, Rakuten, PwC. SOC 2, HIPAA, GDPR compliant. Self-serve from $99/mo.
-          </div>
-          <div style="font-size:0.85rem; color:var(--text-dim); margin-bottom:8px; font-family:var(--font-mono);">Python, FastAPI, PostgreSQL, Redis, GCP, Langfuse, OpenTelemetry</div>
-          <div class="project-desc" style="margin-top:8px;">
-            Own the agent execution path end to end — tool-call latency to stream delivery to incident response.
-            Built the Salesforce org indexing platform as an orchestrator-worker system on Pub/Sub handling ~28k work items per run,
-            workers autoscaling to 100 Cloud Run instances. Tool-call latency dropped from ~4s to ~800ms.
-          </div>
+      <div class="xp">
+        <div class="xp-meta">oct 2025 – present · bengaluru</div>
+        <div class="xp-role">Senior Software Engineer — <a href="https://www.getclientell.com" target="_blank" rel="noopener">Clientell</a></div>
+        <div class="xp-co">
+          <strong>AI agent for Salesforce.</strong> Founded 2021 (Wilmington, DE). $3.2M+ raised. Salesforce AppExchange Partner. 500+ orgs deployed including Notion, Eventbrite, Rakuten, PwC. SOC 2, HIPAA, GDPR compliant. Self-serve from $99/mo.
         </div>
-
-        <div class="writing-item" style="cursor:default; padding-left:0;">
-          <div class="writing-meta">jan 2025 – oct 2025 · bengaluru</div>
-          <div class="writing-title">Lead Backend Engineer — <a href="https://faebikes.com" target="_blank" rel="noopener" style="color:inherit; text-decoration:underline; text-underline-offset:2px;">Fae</a></div>
-          <div class="project-desc" style="margin-top:0; margin-bottom:8px; font-size:0.85rem; color:var(--text-dim); border-left:2px solid var(--accent); padding-left:12px; line-height:1.5;">
-            <strong style="color:var(--text);">Electric bike startup.</strong> Bengaluru-based. Built internal platform tooling for operations — ABAC authorization, payment processing, and backend rewrite. Bootstrapped.
-          </div>
-          <div style="font-size:0.85rem; color:var(--text-dim); margin-bottom:8px; font-family:var(--font-mono);">FastAPI, Go, PostgreSQL, Docker, AWS ECS, GitHub Actions</div>
-          <div class="project-desc" style="margin-top:8px;">
-            Rewrote a legacy NestJS codebase into a two-service FastAPI monolith with dependency injection,
-            dropping refactors worth 8-10 story points per sprint. Implemented ABAC authorization with audit logging.
-            Halved payment execution latency from ~5s to ~2.5s by moving external calls off the critical path.
-          </div>
+        <div class="xp-stack">Python, FastAPI, PostgreSQL, Redis, GCP, Langfuse, OpenTelemetry</div>
+        <div class="xp-desc">
+          Own the agent execution path end to end — tool-call latency to stream delivery to incident response.
+          Built the Salesforce org indexing platform as an orchestrator-worker system on Pub/Sub handling ~28k work items per run,
+          workers autoscaling to 100 Cloud Run instances. Tool-call latency dropped from ~4s to ~800ms.
         </div>
+      </div>
 
-        <div class="writing-item" style="cursor:default; padding-left:0;">
-          <div class="writing-meta">oct 2022 – nov 2023 · bengaluru</div>
-          <div class="writing-title">Software Engineer — Gida Technologies</div>
-          <div class="project-desc" style="margin-top:0; margin-bottom:8px; font-size:0.85rem; color:var(--text-dim); border-left:2px solid var(--accent); padding-left:12px; line-height:1.5;">
-            <strong style="color:var(--text);">Health-tech platform.</strong> Bengaluru-based. Built data infrastructure handling sensitive healthcare records for India's Ayushman Bharat Digital Mission (ABDM).
-          </div>
-          <div style="font-size:0.85rem; color:var(--text-dim); margin-bottom:8px; font-family:var(--font-mono);">Python, Node.js, Google BigQuery, PostgreSQL</div>
-          <div class="project-desc" style="margin-top:8px;">
-            Built a daily ETL pipeline ingesting ~600k health insurance records into BigQuery with PGP encryption,
-            meeting ABDM regulatory requirements. Automated recurring analyst reporting, removing ~20 hours/week of manual effort.
-          </div>
+      <div class="xp">
+        <div class="xp-meta">jan 2025 – oct 2025 · bengaluru</div>
+        <div class="xp-role">Lead Backend Engineer — <a href="https://faebikes.com" target="_blank" rel="noopener">Fae</a></div>
+        <div class="xp-co">
+          <strong>Electric bike startup.</strong> Bengaluru-based. Built internal platform tooling for operations — ABAC authorization, payment processing, and backend rewrite. Bootstrapped.
+        </div>
+        <div class="xp-stack">FastAPI, Go, PostgreSQL, Docker, AWS ECS, GitHub Actions</div>
+        <div class="xp-desc">
+          Rewrote a legacy NestJS codebase into a two-service FastAPI monolith with dependency injection,
+          dropping refactors worth 8-10 story points per sprint. Implemented ABAC authorization with audit logging.
+          Halved payment execution latency from ~5s to ~2.5s by moving external calls off the critical path.
+        </div>
+      </div>
+
+      <div class="xp">
+        <div class="xp-meta">oct 2022 – nov 2023 · bengaluru</div>
+        <div class="xp-role">Software Engineer — Gida Technologies</div>
+        <div class="xp-co">
+          <strong>Health-tech platform.</strong> Bengaluru-based. Built data infrastructure handling sensitive healthcare records for India's Ayushman Bharat Digital Mission (ABDM).
+        </div>
+        <div class="xp-stack">Python, Node.js, Google BigQuery, PostgreSQL</div>
+        <div class="xp-desc">
+          Built a daily ETL pipeline ingesting ~600k health insurance records into BigQuery with PGP encryption,
+          meeting ABDM regulatory requirements. Automated recurring analyst reporting, removing ~20 hours/week of manual effort.
         </div>
       </div>
     </section>
@@ -80,7 +127,7 @@
     <section style="margin-top:48px;">
       <h2 class="section-title">→ career break</h2>
       <div class="project-list">
-        <div class="project-card" style="cursor:default; text-decoration:none; color:var(--text);">
+        <div class="project-card" style="cursor:default;">
           <div class="project-name">nov 2023 – dec 2024</div>
           <div class="project-desc">
             Built a Redis-protocol-compatible in-memory server (GET/SET, HGET/HSET, ZADD)
@@ -95,7 +142,7 @@
 
   <footer>
     <div class="container">
-      <span>© 2026 Donny · donnyeatstech</span>
+      <span>© 2026 Donny · <a href="https://github.com/donnyeatstech" target="_blank" rel="noopener">donnyeatstech</a></span>
       <div class="footer-links">
         <a href="https://substack.com/@donnyeatstech" target="_blank" rel="noopener">substack</a>
         <a href="https://x.com/donnyeatstech" target="_blank" rel="noopener">x</a>

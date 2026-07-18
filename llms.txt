@@ -1,0 +1,34 @@
+# Donny — Backend Engineer
+
+> Donny (donny eats tech) is a backend engineer specializing in distributed systems, databases, and infrastructure. Currently Senior Software Engineer at Clientell, where he owns the AI-agent execution path and built the Salesforce org-indexing platform. Based in Bengaluru, India. Writes long-form technical deep-dives on Substack.
+
+## About
+
+- **Role:** Senior Software Engineer at Clientell (Oct 2025 – present)
+- **Focus:** Backend engineering — distributed systems, databases, infrastructure, observability
+- **Location:** Bengaluru, India
+- **Core stack:** Go, Python, PostgreSQL, Redis, FastAPI, GCP, AWS, Pub/Sub, OpenTelemetry
+- **Interests:** Postgres internals, consistent hashing, Raft/consensus, systems programming
+
+## Experience
+
+- **Clientell — Senior Software Engineer (Oct 2025 – present):** Owns the AI-agent execution path end to end; built the Salesforce org-indexing platform as an orchestrator/worker system on Pub/Sub (~28k work items/run, autoscaling to 100 Cloud Run instances). Cut tool-call latency from ~4s to ~800ms. Clientell is an AI agent for Salesforce deployed across 500+ orgs including Notion, Rakuten, and PwC.
+- **Fae — Lead Backend Engineer (Jan 2025 – Oct 2025):** Rewrote a legacy NestJS codebase into a two-service FastAPI monolith; implemented ABAC authorization with audit logging; halved payment execution latency from ~5s to ~2.5s.
+- **Gida Technologies — Software Engineer (Oct 2022 – Nov 2023):** Built a daily ETL pipeline ingesting ~600k health-insurance records into BigQuery with PGP encryption for India's Ayushman Bharat Digital Mission (ABDM).
+
+## Writing
+
+- [Yes, you can store JSONs in Postgres. No, you shouldn't. Well, it depends](https://substack.com/@donnyeatstech/p-164607285): PostgreSQL JSON/JSONB storage mechanics, indexing tradeoffs, and query performance.
+- [From the Birthday Paradox to Consistent Hashing](https://substack.com/@donnyeatstech/p-162607285): A conceptual bridge from probability to load distribution in distributed systems.
+
+## Projects
+
+- [redis-go](https://github.com/donnyeatstech/redis-go): Redis-compatible server in Go — RESP2 protocol, TTL expiry, SQLite-backed durability.
+- [mit-6.5840](https://github.com/donnyeatstech/mit-6.5840): MIT's distributed systems course — Raft, MapReduce, and distributed key-value stores.
+
+## Links
+
+- Website: https://donnyeatstech.com/
+- Substack: https://substack.com/@donnyeatstech
+- GitHub: https://github.com/donnyeatstech
+- X: https://x.com/donnyeatstech

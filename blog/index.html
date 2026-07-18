@@ -3,29 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>blog — donny eats tech</title>
-  <meta name="description" content="Original blog posts by Donny — shorter engineering notes, code walkthroughs, and project writeups.">
+
+  <title>Blog — Donny · Engineering Notes &amp; Code Walkthroughs</title>
+  <meta name="description" content="Shorter engineering notes, code walkthroughs, and project writeups by Donny — backend engineering, distributed systems, and databases. Long-form deep-dives live on Substack.">
+  <meta name="author" content="Donny">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#1d2021">
+  <link rel="canonical" href="https://donnyeatstech.com/blog/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="donny eats tech">
+  <meta property="og:title" content="Blog — Donny · Engineering Notes">
+  <meta property="og:description" content="Shorter engineering notes, code walkthroughs, and project writeups.">
+  <meta property="og:url" content="https://donnyeatstech.com/blog/">
+  <meta property="og:image" content="https://donnyeatstech.com/og.png">
+
   <link rel="stylesheet" href="/css/style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>">
 </head>
 <body>
+  <a href="#main" class="skip-link">skip to content</a>
+
   <nav>
     <div class="container">
       <a href="/" class="logo">donny eats tech</a>
-      <ul class="nav-links">
-        <li><a href="/">home</a></li>
-        <li><a href="/writing/">writing</a></li>
-        <li><a href="/blog/" class="active">blog</a></li>
-        <li><a href="/projects/">projects</a></li>
-      </ul>
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/writing/" class="active">writing</a></li>
+          <li><a href="/work/">work</a></li>
+          <li><a href="/projects/">projects</a></li>
+        </ul>
+        <a href="/work/resume.pdf" target="_blank" rel="noopener" class="btn-outline">↓ resume</a>
+      </div>
     </div>
   </nav>
 
-  <main class="container">
-    <section class="page-header">
+  <main class="container" id="main">
+    <header class="page-header">
       <h1>blog</h1>
-      <p>Shorter engineering notes, code walkthroughs, and project writeups. Think of this as the workshop — raw, iterative, and hands-on. Long-form deep-dives live on <a href="/writing/" style="color:var(--accent);">Substack</a>.</p>
-    </section>
+      <p>Shorter engineering notes, code walkthroughs, and project writeups. The workshop — raw, iterative, and hands-on. Long-form deep-dives live on <a href="/writing/" style="color:var(--accent);">Substack</a>.</p>
+    </header>
 
     <section>
       <div class="blog-list">
@@ -40,7 +58,7 @@
 
   <footer>
     <div class="container">
-      <span>© 2026 Donny · donnyeatstech</span>
+      <span>© 2026 Donny · <a href="https://github.com/donnyeatstech" target="_blank" rel="noopener">donnyeatstech</a></span>
       <div class="footer-links">
         <a href="https://substack.com/@donnyeatstech" target="_blank" rel="noopener">substack</a>
         <a href="https://x.com/donnyeatstech" target="_blank" rel="noopener">x</a>
@@ -50,4 +68,3 @@
   </footer>
 </body>
 </html>
-

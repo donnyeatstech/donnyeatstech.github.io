@@ -3,24 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome — donny eats tech</title>
+
+  <title>Hello, world — Donny · donny eats tech</title>
+  <meta name="description" content="Welcome to donnyeatstech.com — the hub for Donny's writing, projects, and backend engineering work in distributed systems and databases.">
+  <meta name="author" content="Donny">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#1d2021">
+  <link rel="canonical" href="https://donnyeatstech.com/blog/first-post.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="donny eats tech">
+  <meta property="og:title" content="Hello, world — Donny">
+  <meta property="og:description" content="Welcome to donnyeatstech.com — the hub for Donny's writing, projects, and backend engineering work.">
+  <meta property="og:url" content="https://donnyeatstech.com/blog/first-post.html">
+  <meta property="og:image" content="https://donnyeatstech.com/og.png">
+
   <link rel="stylesheet" href="/css/style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>">
 </head>
 <body>
+  <a href="#main" class="skip-link">skip to content</a>
+
   <nav>
     <div class="container">
       <a href="/" class="logo">donny eats tech</a>
-      <ul class="nav-links">
-        <li><a href="/">home</a></li>
-        <li><a href="/writing/">writing</a></li>
-        <li><a href="/blog/">blog</a></li>
-        <li><a href="/projects/">projects</a></li>
-      </ul>
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/writing/" class="active">writing</a></li>
+          <li><a href="/work/">work</a></li>
+          <li><a href="/projects/">projects</a></li>
+        </ul>
+        <a href="/work/resume.pdf" target="_blank" rel="noopener" class="btn-outline">↓ resume</a>
+      </div>
     </div>
   </nav>
 
-  <main class="container">
+  <main class="container" id="main">
     <article>
       <header class="post-header">
         <div class="post-date">18 jul 2026</div>
@@ -30,14 +49,14 @@
       <div class="post-content">
         <p>Welcome to the brand new corner of the internet I call donnyeatstech.com.</p>
 
-        <p>I'm Donny — a 25-year-old software engineer in India. I build things in Go, TypeScript, C++, and Python.
+        <p>I'm Donny — a software engineer in India. I build backend systems in Go, TypeScript, C++, and Python.
         I'm obsessed with distributed systems, databases, and the engineering tradeoffs behind them.</p>
 
         <p>This site is my hub. A place to tie everything together:</p>
 
         <ul>
           <li><strong><a href="/writing/">Writing</a></strong> — my long-form deep-dives live on Substack. I write about Postgres internals, consistent hashing, and whatever systems problem has my attention.</li>
-          <li><strong><a href="/projects/">Projects</a></strong> — things I've built. My RTC experiments, MIT 6.5840 labs, and system design prototypes.</li>
+          <li><strong><a href="/projects/">Projects</a></strong> — things I've built. A Redis-compatible server in Go, MIT 6.5840 labs, and other systems prototypes.</li>
           <li><strong>Blog</strong> — the page you're reading now. Shorter notes, code walkthroughs, and project writeups that don't need a full newsletter treatment.</li>
         </ul>
 
@@ -55,7 +74,7 @@
 
   <footer>
     <div class="container">
-      <span>© 2026 Donny · donnyeatstech</span>
+      <span>© 2026 Donny · <a href="https://github.com/donnyeatstech" target="_blank" rel="noopener">donnyeatstech</a></span>
       <div class="footer-links">
         <a href="https://substack.com/@donnyeatstech" target="_blank" rel="noopener">substack</a>
         <a href="https://x.com/donnyeatstech" target="_blank" rel="noopener">x</a>

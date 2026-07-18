@@ -3,82 +3,177 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Donny eats tech — systems, math, software</title>
-  <meta name="description" content="Donny — systems, math, software.">
+
+  <title>Donny — Backend Engineer · Distributed Systems, Databases, Infrastructure</title>
+  <meta name="description" content="Backend engineer working on distributed systems, databases, and infrastructure. Senior Software Engineer at Clientell (AI agent for Salesforce). Writing about databases, system design, and all things tech.">
+  <meta name="author" content="Donny">
+  <meta name="keywords" content="backend engineer, distributed systems, databases, PostgreSQL, Go, Python, Redis, infrastructure, systems programming, observability, Bengaluru, donny eats tech">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#1d2021">
+  <link rel="canonical" href="https://donnyeatstech.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="donny eats tech">
+  <meta property="og:title" content="Donny">
+  <meta property="og:description" content="Backend engineer working on distributed systems, databases, and infrastructure. Senior Software Engineer at Clientell.">
+  <meta property="og:url" content="https://donnyeatstech.com/">
+  <meta property="og:image" content="https://donnyeatstech.com/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@donnyeatstech">
+  <meta name="twitter:creator" content="@donnyeatstech">
+  <meta name="twitter:description" content="Backend engineer working on distributed systems, databases, and infrastructure.">
+  <meta name="twitter:image" content="https://donnyeatstech.com/og.png">
+
   <link rel="stylesheet" href="/css/style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://donnyeatstech.com/#person",
+        "name": "Donny",
+        "alternateName": "donny eats tech",
+        "url": "https://donnyeatstech.com/",
+        "jobTitle": "Senior Software Engineer",
+        "description": "Backend engineer specializing in distributed systems, databases, and infrastructure.",
+        "knowsAbout": [
+          "Backend engineering",
+          "Distributed systems",
+          "Databases",
+          "PostgreSQL",
+          "Redis",
+          "Go",
+          "Python",
+          "Infrastructure",
+          "Observability",
+          "Systems programming",
+          "Consistent hashing",
+          "AI agents"
+        ],
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Clientell",
+          "url": "https://www.getclientell.com"
+        },
+        "homeLocation": {
+          "@type": "Place",
+          "name": "Bengaluru, India"
+        },
+        "sameAs": [
+          "https://substack.com/@donnyeatstech",
+          "https://x.com/donnyeatstech",
+          "https://github.com/donnyeatstech"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://donnyeatstech.com/#website",
+        "url": "https://donnyeatstech.com/",
+        "name": "donny eats tech",
+        "description": "Backend engineering — distributed systems, databases, and infrastructure.",
+        "publisher": { "@id": "https://donnyeatstech.com/#person" },
+        "inLanguage": "en"
+      },
+      {
+        "@type": "ProfilePage",
+        "@id": "https://donnyeatstech.com/#profilepage",
+        "url": "https://donnyeatstech.com/",
+        "name": "Donny — Backend Engineer",
+        "about": { "@id": "https://donnyeatstech.com/#person" },
+        "isPartOf": { "@id": "https://donnyeatstech.com/#website" }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
+  <a href="#main" class="skip-link">skip to content</a>
+
   <nav>
     <div class="container">
       <a href="/" class="logo">donny eats tech</a>
-      <ul class="nav-links">
-        <li><a href="/" class="active">home</a></li>
-        <li><a href="/writing/">writing</a></li>
-        <li><a href="/work/">work</a></li>
-        <li><a href="/projects/">projects</a></li>
-      </ul>
-    </div>
-    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
-        <div class="link-grid" style="margin-bottom:0;">
-          <a href="https://substack.com/@donnyeatstech" target="_blank" rel="noopener" aria-label="substack">
-            <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
-          </a>
-          <a href="https://x.com/donnyeatstech" target="_blank" rel="noopener" aria-label="x">
-            <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          </a>
-          <a href="https://github.com/donnyeatstech" target="_blank" rel="noopener" aria-label="github">
-            <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.604-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.62-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-          </a>
-        </div>
-        <a href="/work/resume.pdf" target="_blank" rel="noopener" class="btn-outline" style="margin-top:0;">
-          ↓ resume
-        </a>
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li><a href="/" class="active">home</a></li>
+          <li><a href="/writing/">writing</a></li>
+          <li><a href="/work/">work</a></li>
+          <li><a href="/projects/">projects</a></li>
+        </ul>
+        <a href="/work/resume.pdf" target="_blank" rel="noopener" class="btn-outline">↓ resume</a>
       </div>
+    </div>
   </nav>
 
-  <main class="container">
-    <section class="hero">
-      <div class="subtitle">systems · math · software</div>
+  <main class="container" id="main">
+    <header class="hero">
+      <h1 class="sr-only">Donny — backend engineer</h1>
+      <p class="subtitle">systems · math · software</p>
       <p class="bio">
-        27, software engineer. Writing about distributed systems, databases, and everything else that keeps me up at night.
+        I'm a backend engineer. I like event-driven systems, fan-outs, consensus and math.
+        I mostly use Codex at work, and for my personal stuff, I use Hermes Agent, with OpenCode,
+        running Chinese models (Kimi K3, DeepSeek V4 Flash, V4 Pro).
+        I'm building stuff that I like whilst tinkering with the agentic setup that builds it.
       </p>
 
-      <div style="margin-bottom:48px;">
-        <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-dim); margin-bottom:6px;">recent work</div>
-        <a href="/work/" style="display:block; text-decoration:none; padding:14px 18px; background:var(--bg-card); border:1px solid var(--border); border-radius:8px; transition:all 0.2s; color:var(--text);">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:4px;">
-            <div>
-              <div style="font-weight:600; font-family:var(--font-mono); font-size:0.85rem;">Senior Software Engineer — <span style="color:var(--accent);">Clientell</span></div>
-              <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">AI agent execution path · Salesforce indexing · observability</div>
-            </div>
-            <div style="font-size:0.7rem; font-family:var(--font-mono); color:var(--text-dim); white-space:nowrap;">oct 2025 – present</div>
-          </div>
+      <div class="link-grid" aria-label="Social links">
+        <a href="https://substack.com/@donnyeatstech" target="_blank" rel="noopener" aria-label="Substack">
+          <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
+        </a>
+        <a href="https://x.com/donnyeatstech" target="_blank" rel="noopener" aria-label="X (Twitter)">
+          <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="https://github.com/donnyeatstech" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.604-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.62-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
         </a>
       </div>
+    </header>
 
+    <section class="now" aria-label="Recent work">
+      <div class="now-label">recent work</div>
+      <a href="/work/" class="now-card">
+        <div class="now-head">
+          <div class="now-role">Senior Software Engineer — <span class="co">Clientell</span></div>
+          <div class="now-date">oct 2025 – present</div>
+        </div>
+        <div class="now-what">
+          Agent execution, streaming, infra, background jobs, observability.
+        </div>
+        <div class="now-co">
+          Clientell — an AI agent for Salesforce, deployed across 500+ orgs including
+          Notion, Rakuten, and PwC.
+        </div>
+      </a>
     </section>
 
-    <section>
+    <section aria-label="Latest writing">
       <h2 class="section-title">→ latest writing</h2>
       <div class="writing-list">
         <a href="https://substack.com/@donnyeatstech/p-164607285" target="_blank" rel="noopener" class="writing-item">
-          <div class="writing-meta">17 jul 2026 · 19 min read</div>
+          <div class="writing-meta">17 jul 2026 · 19 min · <span class="src">substack&nbsp;↗</span></div>
           <div class="writing-title">Yes, you can store JSONs in Postgres. No, you shouldn't. Well, it depends</div>
           <div class="writing-desc">A deep dive into PostgreSQL's JSON capabilities, the tradeoffs, and when you should reach for them.</div>
-          <div class="writing-link">read on substack →</div>
         </a>
 
         <a href="https://substack.com/@donnyeatstech/p-162607285" target="_blank" rel="noopener" class="writing-item">
-          <div class="writing-meta">13 jun 2026 · 3 min read</div>
+          <div class="writing-meta">13 jun 2026 · 3 min · <span class="src">substack&nbsp;↗</span></div>
           <div class="writing-title">From the Birthday Paradox to Consistent Hashing</div>
           <div class="writing-desc">The start of my journey into Google's paper: "Consistent Hashing with Bounded Loads".</div>
-          <div class="writing-link">read on substack →</div>
         </a>
       </div>
+      <p style="text-align:right; margin-top:-8px;">
+        <a href="/writing/" style="color:var(--accent); font-size:0.85rem; font-family:var(--font-mono); text-decoration:none;">all writing →</a>
+      </p>
     </section>
 
-    <section>
+    <section aria-label="Projects">
       <h2 class="section-title">→ projects</h2>
       <div class="project-list">
         <a href="https://github.com/donnyeatstech/redis-go" target="_blank" rel="noopener" class="project-card">
@@ -92,7 +187,7 @@
           <div class="project-lang">go</div>
         </a>
       </div>
-      <p style="text-align:right; margin-top: -8px;">
+      <p style="text-align:right; margin-top:-8px;">
         <a href="/projects/" style="color:var(--accent); font-size:0.85rem; font-family:var(--font-mono); text-decoration:none;">all projects →</a>
       </p>
     </section>
@@ -100,7 +195,7 @@
 
   <footer>
     <div class="container">
-      <span>© 2026 Donny · <a href="https://github.com/donnyeatstech" target="_blank" rel="noopener" style="color:var(--text-dim); text-decoration:none;">donnyeatstech</a></span>
+      <span>© 2026 Donny · <a href="https://github.com/donnyeatstech" target="_blank" rel="noopener">donnyeatstech</a></span>
       <div class="footer-links">
         <a href="https://substack.com/@donnyeatstech" target="_blank" rel="noopener">substack</a>
         <a href="https://x.com/donnyeatstech" target="_blank" rel="noopener">x</a>

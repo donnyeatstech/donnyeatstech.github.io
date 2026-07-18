@@ -3,52 +3,111 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>writing — donny eats tech</title>
-  <meta name="description" content="All writing by Donny — long-form technical deep-dives on systems, math, and software.">
+
+  <title>Writing — Donny · Distributed Systems, Databases & Backend Engineering</title>
+  <meta name="description" content="Long-form technical deep-dives by Donny — Postgres internals, consistent hashing, distributed systems, and backend engineering tradeoffs. Published on Substack.">
+  <meta name="author" content="Donny">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#1d2021">
+  <link rel="canonical" href="https://donnyeatstech.com/writing/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="donny eats tech">
+  <meta property="og:title" content="Writing — Donny · Distributed Systems & Databases">
+  <meta property="og:description" content="Long-form technical deep-dives on distributed systems, databases, and backend engineering.">
+  <meta property="og:url" content="https://donnyeatstech.com/writing/">
+  <meta property="og:image" content="https://donnyeatstech.com/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@donnyeatstech">
+  <meta name="twitter:title" content="Writing — Donny · Distributed Systems & Databases">
+  <meta name="twitter:description" content="Long-form technical deep-dives on distributed systems, databases, and backend engineering.">
+  <meta name="twitter:image" content="https://donnyeatstech.com/og.png">
+
   <link rel="stylesheet" href="/css/style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "@id": "https://donnyeatstech.com/writing/#blog",
+    "name": "Donny eats tech — writing",
+    "description": "Long-form technical deep-dives on distributed systems, databases, and backend engineering.",
+    "url": "https://donnyeatstech.com/writing/",
+    "inLanguage": "en",
+    "author": {
+      "@type": "Person",
+      "name": "Donny",
+      "url": "https://donnyeatstech.com/"
+    },
+    "blogPost": [
+      {
+        "@type": "BlogPosting",
+        "headline": "Yes, you can store JSONs in Postgres. No, you shouldn't. Well, it depends",
+        "datePublished": "2026-07-17",
+        "url": "https://substack.com/@donnyeatstech/p-164607285",
+        "author": { "@type": "Person", "name": "Donny" },
+        "keywords": "PostgreSQL, JSON, JSONB, databases, indexing"
+      },
+      {
+        "@type": "BlogPosting",
+        "headline": "From the Birthday Paradox to Consistent Hashing",
+        "datePublished": "2026-06-13",
+        "url": "https://substack.com/@donnyeatstech/p-162607285",
+        "author": { "@type": "Person", "name": "Donny" },
+        "keywords": "consistent hashing, distributed systems, load balancing, probability"
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
+  <a href="#main" class="skip-link">skip to content</a>
+
   <nav>
     <div class="container">
       <a href="/" class="logo">donny eats tech</a>
-      <ul class="nav-links">
-        <li><a href="/">home</a></li>
-        <li><a href="/writing/" class="active">writing</a></li>
-        <li><a href="/work/">work</a></li>
-        <li><a href="/projects/">projects</a></li>
-      </ul>
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li><a href="/">home</a></li>
+          <li><a href="/writing/" class="active">writing</a></li>
+          <li><a href="/work/">work</a></li>
+          <li><a href="/projects/">projects</a></li>
+        </ul>
+        <a href="/work/resume.pdf" target="_blank" rel="noopener" class="btn-outline">↓ resume</a>
+      </div>
     </div>
   </nav>
 
-  <main class="container">
-    <section class="page-header">
+  <main class="container" id="main">
+    <header class="page-header">
       <h1>writing</h1>
-      <p>Long-form deep-dives on systems, math, and software engineering. Published on Substack — subscribe to get new posts in your inbox.</p>
-    </section>
+      <p>Long-form deep-dives on distributed systems, databases, and backend engineering. Published on Substack — subscribe to get new posts in your inbox.</p>
+    </header>
 
     <section>
       <div class="writing-list">
         <a href="https://substack.com/@donnyeatstech/p-164607285" target="_blank" rel="noopener" class="writing-item">
-          <div class="writing-meta">17 jul 2026 · 19 min read</div>
+          <div class="writing-meta">17 jul 2026 · 19 min · <span class="src">substack&nbsp;↗</span></div>
           <div class="writing-title">Yes, you can store JSONs in Postgres. No, you shouldn't. Well, it depends</div>
           <div class="writing-desc">
             PostgreSQL's JSON and JSONB types are powerful, but they're not a replacement for a document store.
             This post breaks down the storage mechanics, indexing tradeoffs, query performance characteristics,
             and the specific patterns where JSON in Postgres shines — and where it burns you.
           </div>
-          <div class="writing-link">read on substack →</div>
         </a>
 
         <a href="https://substack.com/@donnyeatstech/p-162607285" target="_blank" rel="noopener" class="writing-item">
-          <div class="writing-meta">13 jun 2026 · 3 min read</div>
+          <div class="writing-meta">13 jun 2026 · 3 min · <span class="src">substack&nbsp;↗</span></div>
           <div class="writing-title">From the Birthday Paradox to Consistent Hashing</div>
           <div class="writing-desc">
             How the classic birthday paradox leads naturally to understanding load distribution in
             distributed systems, and sets the stage for Google's "Consistent Hashing with Bounded Loads."
             A quick conceptual bridge between probability and systems design.
           </div>
-          <div class="writing-link">read on substack →</div>
         </a>
       </div>
 
@@ -60,7 +119,7 @@
 
   <footer>
     <div class="container">
-      <span>© 2026 Donny · donnyeatstech</span>
+      <span>© 2026 Donny · <a href="https://github.com/donnyeatstech" target="_blank" rel="noopener">donnyeatstech</a></span>
       <div class="footer-links">
         <a href="https://substack.com/@donnyeatstech" target="_blank" rel="noopener">substack</a>
         <a href="https://x.com/donnyeatstech" target="_blank" rel="noopener">x</a>
