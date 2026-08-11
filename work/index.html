@@ -4,11 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- Set theme before paint (no flash) -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t === "dark" || (!t && matchMedia("(prefers-color-scheme: dark)").matches)) {
+          document.documentElement.classList.add("dark");
+        }
+      } catch (e) {}
+    })();
+  </script>
+
   <title>Work — Donny · Backend Engineer (Distributed Systems &amp; Infrastructure)</title>
   <meta name="description" content="Donny's work history — backend engineering, distributed systems, and infrastructure. Senior Software Engineer at Clientell, previously Lead Backend Engineer at Fae. Python, Go, PostgreSQL, GCP, AWS.">
   <meta name="author" content="Donny">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <meta name="theme-color" content="#1d2021">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0b0b">
   <link rel="canonical" href="https://donnyeatstech.com/work/">
 
   <meta property="og:type" content="profile">
@@ -26,6 +39,9 @@
   <meta name="twitter:description" content="Backend engineering, distributed systems, and infrastructure.">
   <meta name="twitter:image" content="https://donnyeatstech.com/og.png">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>">
 
@@ -70,6 +86,10 @@
           <li><a href="/work/" class="active">work</a></li>
           <li><a href="/projects/">projects</a></li>
         </ul>
+        <button class="theme-toggle" type="button" aria-label="Toggle light/dark theme" title="Toggle theme">
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        </button>
       </div>
     </div>
   </nav>
@@ -123,7 +143,7 @@
     </section>
 
     <section style="margin-top:48px;">
-      <h2 class="section-title">→ career break</h2>
+      <h2 class="section-label"><span>career break</span></h2>
       <div class="project-list">
         <div class="project-card" style="cursor:default;">
           <div class="project-name">nov 2023 – dec 2024</div>
@@ -137,5 +157,7 @@
       </div>
     </section>
   </main>
+
+  <script src="/js/theme.js" defer></script>
 </body>
 </html>
