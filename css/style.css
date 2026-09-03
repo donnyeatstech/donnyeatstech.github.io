@@ -238,10 +238,13 @@ main.wrap { padding-bottom: 20px; flex: 1 0 auto; width: 100%; }
 /* responsive */
 @media (max-width: 720px) {
   .wrap { padding: 0 20px; }
-  .nav { gap: 18px; }
+  .hdr .wrap { flex-direction: column; height: auto; padding: 14px 0; gap: 10px; }
+  .nav { gap: 16px; flex-wrap: wrap; justify-content: center; }
   .grid-writing, .grid-proj, .grid-tweets { grid-template-columns: 1fr; }
   .block { padding: 28px 0; }
-  .hero { padding: 40px 0 32px; }
+  .hero { padding: 40px 0 32px; text-align: center; }
+  .eyebrow, .hero .lead, .hero .sub { margin-left: auto; margin-right: auto; }
+  .socials { justify-content: center; }
   .now { grid-template-columns: 1fr; }
   .now-date { grid-row: 2; }
 }
