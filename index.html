@@ -4,25 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Set theme before paint (no flash) -->
-  <script>
-    (function () {
-      try {
-        var t = localStorage.getItem("theme");
-        if (t === "dark" || (!t && matchMedia("(prefers-color-scheme: dark)").matches)) {
-          document.documentElement.classList.add("dark");
-        }
-      } catch (e) {}
-    })();
-  </script>
-
   <title>Donny — Backend Engineer · Distributed Systems, Databases, Infrastructure</title>
   <meta name="description" content="Backend engineer working on distributed systems, databases, and infrastructure. Senior Software Engineer at Clientell (AI agent for Salesforce). Writing about databases, system design, and all things tech.">
   <meta name="author" content="Donny">
   <meta name="keywords" content="backend engineer, distributed systems, databases, PostgreSQL, Go, Python, Redis, infrastructure, systems programming, observability, Bengaluru, donny eats tech">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0b0b">
+  <meta name="theme-color" content="#ffffff">
   <link rel="canonical" href="https://donnyeatstech.com/">
 
   <!-- Open Graph -->
@@ -44,7 +31,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>">
 
@@ -61,28 +48,12 @@
         "jobTitle": "Senior Software Engineer",
         "description": "Backend engineer specializing in distributed systems, databases, and infrastructure.",
         "knowsAbout": [
-          "Backend engineering",
-          "Distributed systems",
-          "Databases",
-          "PostgreSQL",
-          "Redis",
-          "Go",
-          "Python",
-          "Infrastructure",
-          "Observability",
-          "Systems programming",
-          "Consistent hashing",
-          "AI agents"
+          "Backend engineering", "Distributed systems", "Databases", "PostgreSQL", "Redis",
+          "Go", "Python", "Infrastructure", "Observability", "Systems programming",
+          "Consistent hashing", "AI agents"
         ],
-        "worksFor": {
-          "@type": "Organization",
-          "name": "Clientell",
-          "url": "https://www.getclientell.com"
-        },
-        "homeLocation": {
-          "@type": "Place",
-          "name": "Bengaluru, India"
-        },
+        "worksFor": { "@type": "Organization", "name": "Clientell", "url": "https://www.getclientell.com" },
+        "homeLocation": { "@type": "Place", "name": "Bengaluru, India" },
         "sameAs": [
           "https://substack.com/@donnyeatstech",
           "https://x.com/donnyeatstech",
@@ -113,102 +84,155 @@
 <body>
   <a href="#main" class="skip-link">skip to content</a>
 
-  <nav>
-    <div class="container">
-      <a href="/" class="logo">donny eats tech</a>
-      <div class="nav-right">
-        <ul class="nav-links">
-          <li><a href="/" class="active">home</a></li>
-          <li><a href="/writing/">writing</a></li>
-          <li><a href="/work/">work</a></li>
-          <li><a href="/projects/">projects</a></li>
-        </ul>
-        <button class="theme-toggle" type="button" aria-label="Toggle light/dark theme" title="Toggle theme">
-          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-        </button>
-      </div>
+  <header class="hdr">
+    <div class="wrap">
+      <a href="/" class="brand">donny eats tech</a>
+      <nav class="nav" aria-label="Primary">
+        <a href="/" class="active">home</a>
+        <a href="/writing/">writing</a>
+        <a href="/work/">work</a>
+        <a href="/projects/">projects</a>
+      </nav>
     </div>
-  </nav>
+  </header>
 
-  <main class="container" id="main">
-    <header class="hero">
-      <h1 class="sr-only">Donny — backend engineer</h1>
-      <div class="hero-top">
-        <p class="eyebrow">systems · math · software</p>
-        <div class="link-grid" aria-label="Social links">
-          <a href="https://substack.com/@donnyeatstech" target="_blank" rel="noopener" aria-label="Substack">
-            <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
-          </a>
-          <a href="https://x.com/donnyeatstech" target="_blank" rel="noopener" aria-label="X (Twitter)">
-            <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          </a>
-          <a href="https://github.com/donnyeatstech" target="_blank" rel="noopener" aria-label="GitHub">
-            <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.604-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.62-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-          </a>
-          <a href="/work/resume.pdf" target="_blank" rel="noopener" class="btn-outline">↓ resume</a>
-        </div>
+  <main class="wrap" id="main">
+    <h1 class="sr-only">Donny — backend engineer</h1>
+
+    <section class="hero">
+      <p class="eyebrow">systems · math · software</p>
+      <p class="lead">I'm a backend engineer.</p>
+      <p class="sub">I like event-driven systems, fan-outs, consensus and math. I mostly use Codex at work, and for my personal stuff, Hermes Agent with OpenCode, running Kimi K3, DeepSeek V4 Flash, V4 Pro. I'm building stuff that I like whilst tinkering with the agentic setup that builds it.</p>
+      <div class="socials" aria-label="Social links">
+        <a href="https://substack.com/@donnyeatstech" target="_blank" rel="noopener" aria-label="Substack"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg></a>
+        <a href="https://x.com/donnyeatstech" target="_blank" rel="noopener" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="https://github.com/donnyeatstech" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.604-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.62-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+        <a class="resume" href="/work/resume.pdf" target="_blank" rel="noopener">↓ resume</a>
       </div>
-      <p class="bio">
-        I'm a backend engineer. I like event-driven systems, fan-outs, consensus and math.
-        I mostly use Codex at work, and for my personal stuff, I use Hermes Agent, with OpenCode,
-        running Kimi K3, DeepSeek V4 Flash, V4 Pro.
-        I'm building stuff that I like whilst tinkering with the agentic setup that builds it.
-      </p>
-    </header>
-
-    <section class="now" aria-label="Recent work">
-      <h2 class="section-label"><span>recent work</span></h2>
-      <a href="/work/" class="now-card">
-        <div class="now-head">
-          <div class="now-role">Senior Software Engineer — <span class="co">Clientell</span></div>
-          <div class="now-date">oct 2025 – present</div>
-        </div>
-        <div class="now-what">
-          Agent execution, streaming, infra, background jobs, observability.
-        </div>
-        <div class="now-co">
-          Clientell — an AI agent for Salesforce, deployed across 500+ orgs including
-          Notion, Rakuten, and PwC.
-        </div>
-      </a>
-      <a href="/work/" class="now-prev">previously: Fae (Lead Backend Engineer) · Gida (Software Engineer) →</a>
     </section>
 
-    <section aria-label="Latest writing">
-      <h2 class="section-label"><span>latest writing</span><a class="section-more" href="/writing/">all writing →</a></h2>
-      <div class="writing-list">
-        <a href="https://donnyeatstech.substack.com/p/should-you-store-jsons-in-postgres" target="_blank" rel="noopener" class="writing-item">
-          <div class="writing-meta">17 jul 2026 · 19 min · <span class="src">substack&nbsp;↗</span></div>
-          <div class="writing-title">Yes, you can store JSONs in Postgres. No, you shouldn't. Well, it depends</div>
-          <div class="writing-desc">A deep dive into PostgreSQL's JSON capabilities, the tradeoffs, and when you should reach for them.</div>
-        </a>
+    <hr class="divide">
 
-        <a href="https://donnyeatstech.substack.com/p/from-birthday-paradox-to-consistent" target="_blank" rel="noopener" class="writing-item">
-          <div class="writing-meta">13 jun 2026 · 3 min · <span class="src">substack&nbsp;↗</span></div>
-          <div class="writing-title">From the Birthday Paradox to Consistent Hashing</div>
-          <div class="writing-desc">The start of my journey into Google's paper: "Consistent Hashing with Bounded Loads".</div>
+    <section class="block" id="work">
+      <div class="block-head">
+        <h2>recent work</h2>
+        <a class="viewall" href="/work/">View all work →</a>
+      </div>
+      <div class="now">
+        <div class="now-role">Senior Software Engineer — Clientell</div>
+        <div class="now-date">oct 2025 – present</div>
+        <div class="now-what">Agent execution, streaming, infra, background jobs, observability.</div>
+        <div class="now-co">Clientell — an AI agent for Salesforce, deployed across 500+ orgs including Notion, Rakuten, and PwC.</div>
+        <a class="now-prev" href="/work/">previously: Fae (Lead Backend Engineer) · Gida (Software Engineer) →</a>
+      </div>
+    </section>
+
+    <hr class="divide">
+
+    <section class="block" id="writing">
+      <div class="block-head">
+        <h2>writing</h2>
+        <a class="viewall" href="/writing/">View all writing →</a>
+      </div>
+      <div class="grid grid-writing">
+        <a class="card" href="https://donnyeatstech.substack.com/p/should-you-store-jsons-in-postgres" target="_blank" rel="noopener">
+          <div class="cover cover-img" style="background-image:url('/assets/jsonb-postgres.jpg')"></div>
+          <div class="card-meta">
+            <div class="m">17 jul 2026 · 19 min read</div>
+            <div class="t">Yes, you can store JSONs in Postgres. No, you shouldn't. Well, it depends</div>
+            <div class="d">The storage mechanics, indexing tradeoffs, and when JSON in Postgres helps — and when it burns you.</div>
+          </div>
+        </a>
+        <a class="card" href="https://donnyeatstech.substack.com/p/from-birthday-paradox-to-consistent" target="_blank" rel="noopener">
+          <div class="cover cover-mint"><span class="tag">Essay · Substack</span></div>
+          <div class="card-meta">
+            <div class="m">13 jun 2026 · 3 min read</div>
+            <div class="t">From the Birthday Paradox to Consistent Hashing</div>
+            <div class="d">A conceptual bridge from probability to load distribution, toward Google's "Consistent Hashing with Bounded Loads".</div>
+          </div>
         </a>
       </div>
     </section>
 
-    <section aria-label="Projects">
-      <h2 class="section-label"><span>projects</span><a class="section-more" href="/projects/">all projects →</a></h2>
-      <div class="project-list">
-        <a href="https://github.com/donnyeatstech/redis-go" target="_blank" rel="noopener" class="project-card">
-          <div class="project-name">redis-go</div>
-          <div class="project-desc">Redis-compatible server in Go — RESP2 protocol, TTL expiry, SQLite-backed durability.</div>
-          <div class="project-lang">go</div>
+    <hr class="divide">
+
+    <section class="block" id="projects">
+      <div class="block-head">
+        <h2>projects</h2>
+        <a class="viewall" href="/projects/">View all projects →</a>
+      </div>
+      <div class="grid grid-proj">
+        <a class="card" href="https://github.com/donnyeatstech/redis-go" target="_blank" rel="noopener">
+          <div class="cover cover-code">
+            <span class="prompt">$ ./</span>
+            <span class="mono-name">redis-go</span>
+          </div>
+          <div class="card-meta">
+            <div class="d">Redis-compatible server in Go — RESP2 protocol, TTL expiry, SQLite-backed durability.</div>
+            <span class="lang">go</span>
+          </div>
         </a>
-        <a href="https://github.com/donnyeatstech/mit-6.5840" target="_blank" rel="noopener" class="project-card">
-          <div class="project-name">mit-6.5840</div>
-          <div class="project-desc">MIT's distributed systems course (formerly 6.824) — Raft, MapReduce, and distributed kv stores.</div>
-          <div class="project-lang">go</div>
+        <a class="card" href="https://github.com/donnyeatstech/mit-6.5840" target="_blank" rel="noopener">
+          <div class="cover cover-code">
+            <span class="prompt">$ ./</span>
+            <span class="mono-name">mit-6.5840</span>
+          </div>
+          <div class="card-meta">
+            <div class="d">MIT's distributed systems course — Raft consensus, MapReduce, and distributed kv stores.</div>
+            <span class="lang">go</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <hr class="divide">
+
+    <section class="block" id="tweets">
+      <div class="block-head">
+        <h2>tweets</h2>
+        <a class="viewall" href="https://x.com/donnyeatstech" target="_blank" rel="noopener">View all on X →</a>
+      </div>
+      <div class="grid grid-tweets">
+        <a class="tweet" href="https://x.com/donnyeatstech" target="_blank" rel="noopener">
+          <div class="tweet-top">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            <span class="tw-handle">@donnyeatstech</span>
+          </div>
+          <p class="tweet-body">accidentally "recovered" some unwanted changes from a swap file which absolutely garbled my c file. luckily had a compiled binary which claude disassembled to recover it</p>
+          <div class="tweet-date">31 aug 2026</div>
+        </a>
+        <a class="tweet" href="https://x.com/donnyeatstech" target="_blank" rel="noopener">
+          <div class="tweet-top">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            <span class="tw-handle">@donnyeatstech</span>
+          </div>
+          <p class="tweet-body">hermes agent and deepseek v4 flash are a match made in heaven</p>
+          <div class="tweet-date">26 jul 2026</div>
+        </a>
+        <a class="tweet" href="https://x.com/donnyeatstech" target="_blank" rel="noopener">
+          <div class="tweet-top">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            <span class="tw-handle">@donnyeatstech</span>
+          </div>
+          <p class="tweet-body">K3 is insane. Single shotted a redis compliant in memory cache with sqlite3 for durability at 35000 wps on an Apple nvme at 135 ns/op</p>
+          <div class="tweet-date">19 jul 2026</div>
         </a>
       </div>
     </section>
   </main>
 
-  <script src="/js/theme.js" defer></script>
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-bottom">
+        <span class="fb-brand">donny eats tech</span>
+        <div class="foot-social">
+          <a href="https://github.com/donnyeatstech" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.604-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.62-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+          <a href="https://x.com/donnyeatstech" target="_blank" rel="noopener" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          <a href="https://substack.com/@donnyeatstech" target="_blank" rel="noopener" aria-label="Substack"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg></a>
+          <a href="/work/resume.pdf" target="_blank" rel="noopener" class="fb-resume">résumé</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
