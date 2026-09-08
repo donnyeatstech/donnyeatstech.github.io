@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>donny eats tech — writing</title>
+    <link>https://donnyeatstech.com/writing/</link>
+    <atom:link href="https://donnyeatstech.com/writing/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Long-form technical deep-dives on distributed systems, databases, and backend engineering.</description>
+    <language>en</language>
+    <lastBuildDate>Fri, 17 Jul 2026 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Yes, you can store JSONs in Postgres. No, you shouldn’t. Well, it depends</title>
+      <link>https://donnyeatstech.com/writing/should-you-store-jsons-in-postgres/</link>
+      <guid isPermaLink="true">https://donnyeatstech.com/writing/should-you-store-jsons-in-postgres/</guid>
+      <pubDate>Fri, 17 Jul 2026 00:00:00 +0000</pubDate>
+      <description>A production RCA: what happens when a large JSON report lives in a jsonb column — how Postgres pages, TOAST, WAL and MVCC turn one write into thousands.</description>
+    </item>
+    <item>
+      <title>From the Birthday Paradox to Consistent Hashing</title>
+      <link>https://donnyeatstech.com/writing/from-birthday-paradox-to-consistent-hashing/</link>
+      <guid isPermaLink="true">https://donnyeatstech.com/writing/from-birthday-paradox-to-consistent-hashing/</guid>
+      <pubDate>Sat, 13 Jun 2026 00:00:00 +0000</pubDate>
+      <description>How the birthday problem and balls-into-bins explain why classic consistent hashing leaves hot spots — and where the power of two choices comes in.</description>
+    </item>
+  </channel>
+</rss>

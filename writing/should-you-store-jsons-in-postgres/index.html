@@ -10,15 +10,18 @@
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#ffffff">
   <link rel="canonical" href="https://donnyeatstech.com/writing/should-you-store-jsons-in-postgres/">
+  <link rel="alternate" type="application/rss+xml" title="donny eats tech — writing" href="https://donnyeatstech.com/writing/feed.xml">
 
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="donny eats tech">
+  <meta property="og:locale" content="en_US">
   <meta property="og:title" content="Yes, you can store JSONs in Postgres. No, you shouldn’t. Well, it depends">
   <meta property="og:description" content="A production RCA: what happens when a large JSON report lives in a jsonb column — how Postgres pages, TOAST, WAL and MVCC turn one write into thousands.">
   <meta property="og:url" content="https://donnyeatstech.com/writing/should-you-store-jsons-in-postgres/">
   <meta property="og:image" content="https://donnyeatstech.com/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="donny eats tech">
   <meta property="article:published_time" content="2026-07-17">
   <meta property="article:author" content="Donny">
 
@@ -55,6 +58,15 @@
         "inLanguage": "en",
         "image": "https://donnyeatstech.com/assets/writing/postgres-page-layout.jpg",
         "keywords": "PostgreSQL, jsonb, TOAST, WAL, MVCC, database storage, RCA"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://donnyeatstech.com/writing/should-you-store-jsons-in-postgres/#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://donnyeatstech.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Writing", "item": "https://donnyeatstech.com/writing/" },
+          { "@type": "ListItem", "position": 3, "name": "Yes, you can store JSONs in Postgres. No, you shouldn\u2019t. Well, it depends" }
+        ]
       },
       {
         "@type": "Person",
@@ -195,7 +207,7 @@
         <p>And if the JSON <strong>is</strong> the entity? Large, immutable once written, always consumed whole, sitting on a row that only exists to hold it? Then it’s a file, so treat it like one. Put it in a bucket, keep the queryable scalars in Postgres next to a reference and a hash and a schema version, and let the database go back to being a database. If you genuinely need to query deep inside those documents then you don’t want a JSON column in a relational store at all, you want a document store, and you should go get one on purpose instead of building a worse one out of TOAST chunks and Redis.</p>
         <p>Postgres will let you store the report. It’ll compress it, chunk it, index it, cache it, serve it, and it’ll do every one of those well enough that you won’t notice for far longer than you should. It never once told us no, and I’m still turning that part over.</p>
         <p>Postgres offers you flexibility. Some flexibility is good, but good lord, using too much of anything is bad.</p>
-        <p class="post-orig">Also published on <a href="https://donnyeatstech.substack.com/p/should-you-store-jsons-in-postgres" target="_blank" rel="noopener">Substack</a>.</p>
+        <p class="post-orig">More writing: <a href="/writing/from-birthday-paradox-to-consistent-hashing/">From the Birthday Paradox to Consistent Hashing</a>. &nbsp;&middot;&nbsp; This piece is also on <a href="https://donnyeatstech.substack.com/p/should-you-store-jsons-in-postgres" target="_blank" rel="noopener">Substack</a>.</p>
       </div>
 
       <a class="post-back" href="/writing/">&larr; all writing</a>
