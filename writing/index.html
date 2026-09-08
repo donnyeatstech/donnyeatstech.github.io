@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Writing — Donny · Distributed Systems, Databases & Backend Engineering</title>
-  <meta name="description" content="Long-form technical deep-dives by Donny — Postgres internals, consistent hashing, distributed systems, and backend engineering tradeoffs. Published on Substack.">
+  <meta name="description" content="Long-form technical deep-dives by Donny — Postgres internals, consistent hashing, distributed systems, and backend engineering tradeoffs. Also on Substack.">
   <meta name="author" content="Donny">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#ffffff">
@@ -35,31 +35,31 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Blog",
-    "@id": "https://donnyeatstech.com/writing/#blog",
-    "name": "Donny eats tech — writing",
-    "description": "Long-form technical deep-dives on distributed systems, databases, and backend engineering.",
+    "@type": "CollectionPage",
+    "@id": "https://donnyeatstech.com/writing/#page",
     "url": "https://donnyeatstech.com/writing/",
+    "name": "Writing — Donny",
+    "description": "Long-form technical deep-dives on distributed systems, databases, and backend engineering.",
     "inLanguage": "en",
-    "author": { "@type": "Person", "name": "Donny", "url": "https://donnyeatstech.com/" },
-    "blogPost": [
-      {
-        "@type": "BlogPosting",
-        "headline": "Yes, you can store JSONs in Postgres. No, you shouldn't. Well, it depends",
-        "datePublished": "2026-07-17",
-        "url": "https://donnyeatstech.substack.com/p/should-you-store-jsons-in-postgres",
-        "author": { "@type": "Person", "name": "Donny" },
-        "keywords": "PostgreSQL, JSON, JSONB, databases, indexing"
-      },
-      {
-        "@type": "BlogPosting",
-        "headline": "From the Birthday Paradox to Consistent Hashing",
-        "datePublished": "2026-06-13",
-        "url": "https://donnyeatstech.substack.com/p/from-birthday-paradox-to-consistent",
-        "author": { "@type": "Person", "name": "Donny" },
-        "keywords": "consistent hashing, distributed systems, load balancing, probability"
-      }
-    ]
+    "isPartOf": { "@id": "https://donnyeatstech.com/#website" },
+    "about": { "@id": "https://donnyeatstech.com/#person" },
+    "mainEntity": {
+      "@type": "ItemList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "url": "https://donnyeatstech.com/writing/should-you-store-jsons-in-postgres/",
+          "name": "Yes, you can store JSONs in Postgres. No, you shouldn't. Well, it depends"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "url": "https://donnyeatstech.com/writing/from-birthday-paradox-to-consistent-hashing/",
+          "name": "From the Birthday Paradox to Consistent Hashing"
+        }
+      ]
+    }
   }
   </script>
 </head>
@@ -85,8 +85,8 @@
 
     <section>
       <div class="writing-list">
-        <a href="https://donnyeatstech.substack.com/p/should-you-store-jsons-in-postgres" target="_blank" rel="noopener" class="writing-item">
-          <div class="writing-meta">17 jul 2026 · 19 min · <span class="src">substack&nbsp;↗</span></div>
+        <a href="/writing/should-you-store-jsons-in-postgres/" class="writing-item">
+          <div class="writing-meta">17 jul 2026 · 19 min read</div>
           <div class="writing-title">Yes, you can store JSONs in Postgres. No, you shouldn't. Well, it depends</div>
           <div class="writing-desc">
             PostgreSQL's JSON and JSONB types are powerful, but they're not a replacement for a document store.
@@ -95,8 +95,8 @@
           </div>
         </a>
 
-        <a href="https://donnyeatstech.substack.com/p/from-birthday-paradox-to-consistent" target="_blank" rel="noopener" class="writing-item">
-          <div class="writing-meta">13 jun 2026 · 3 min · <span class="src">substack&nbsp;↗</span></div>
+        <a href="/writing/from-birthday-paradox-to-consistent-hashing/" class="writing-item">
+          <div class="writing-meta">13 jun 2026 · 3 min read</div>
           <div class="writing-title">From the Birthday Paradox to Consistent Hashing</div>
           <div class="writing-desc">
             How the classic birthday paradox leads naturally to understanding load distribution in

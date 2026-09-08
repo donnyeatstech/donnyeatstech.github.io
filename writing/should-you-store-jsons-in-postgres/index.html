@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Storing large JSON in Postgres — the jsonb/TOAST trap</title>
+  <meta name="description" content="A production RCA: what happens when a large JSON report lives in a jsonb column — how Postgres pages, TOAST, WAL and MVCC turn one write into thousands.">
+  <meta name="author" content="Donny">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="canonical" href="https://donnyeatstech.com/writing/should-you-store-jsons-in-postgres/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="donny eats tech">
+  <meta property="og:title" content="Yes, you can store JSONs in Postgres. No, you shouldn’t. Well, it depends">
+  <meta property="og:description" content="A production RCA: what happens when a large JSON report lives in a jsonb column — how Postgres pages, TOAST, WAL and MVCC turn one write into thousands.">
+  <meta property="og:url" content="https://donnyeatstech.com/writing/should-you-store-jsons-in-postgres/">
+  <meta property="og:image" content="https://donnyeatstech.com/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="article:published_time" content="2026-07-17">
+  <meta property="article:author" content="Donny">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@donnyeatstech">
+  <meta name="twitter:creator" content="@donnyeatstech">
+  <meta name="twitter:title" content="Yes, you can store JSONs in Postgres. No, you shouldn’t. Well, it depends">
+  <meta name="twitter:description" content="A production RCA: what happens when a large JSON report lives in a jsonb column — how Postgres pages, TOAST, WAL and MVCC turn one write into thousands.">
+  <meta name="twitter:image" content="https://donnyeatstech.com/og.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127869;&#65039;</text></svg>">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": "https://donnyeatstech.com/writing/should-you-store-jsons-in-postgres/#post",
+        "headline": "Storing large JSON in Postgres \u2014 the jsonb/TOAST trap",
+        "name": "Yes, you can store JSONs in Postgres. No, you shouldn\u2019t. Well, it depends",
+        "description": "A production RCA: what happens when a large JSON report lives in a jsonb column \u2014 how Postgres pages, TOAST, WAL and MVCC turn one write into thousands.",
+        "datePublished": "2026-07-17",
+        "dateModified": "2026-07-17",
+        "url": "https://donnyeatstech.com/writing/should-you-store-jsons-in-postgres/",
+        "mainEntityOfPage": { "@type": "WebPage", "@id": "https://donnyeatstech.com/writing/should-you-store-jsons-in-postgres/" },
+        "author": { "@id": "https://donnyeatstech.com/#person" },
+        "publisher": { "@id": "https://donnyeatstech.com/#person" },
+        "isPartOf": { "@id": "https://donnyeatstech.com/writing/#page" },
+        "inLanguage": "en",
+        "image": "https://donnyeatstech.com/assets/writing/postgres-page-layout.jpg",
+        "keywords": "PostgreSQL, jsonb, TOAST, WAL, MVCC, database storage, RCA"
+      },
+      {
+        "@type": "Person",
+        "@id": "https://donnyeatstech.com/#person",
+        "name": "Donny",
+        "alternateName": "donny eats tech",
+        "url": "https://donnyeatstech.com/",
+        "sameAs": [
+          "https://substack.com/@donnyeatstech",
+          "https://x.com/donnyeatstech",
+          "https://github.com/donnyeatstech"
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a href="#main" class="skip-link">skip to content</a>
+
+  <header class="hdr">
+    <div class="wrap">
+      <a href="/" class="brand">donny eats tech</a>
+      <nav class="nav" aria-label="Primary">
+        <a href="/">home</a>
+        <a href="/writing/" class="active">writing</a>
+        <a href="/work/">work</a>
+        <a href="/projects/">projects</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap" id="main">
+    <article>
+      <header class="post-header">
+        <div class="post-date">17 jul 2026 &middot; 19 min read</div>
+        <h1>Yes, you can store JSONs in Postgres. No, you shouldn’t. Well, it depends</h1>
+        <p class="post-sub">A production database was pinning its CPU. The cause was one <code>jsonb</code> column — and four layers of machinery under the SQL that Postgres works hard to keep you from noticing.</p>
+      </header>
+
+      <div class="post-content">
+        <h2>Circa 2022</h2>
+        <p>At my first job we didn’t use an ORM. We used a thin Postgres driver and wrote our own data layer on top of it.</p>
+        <p>That sounds like masochism, but it bought us something (and was a learning experience for me). Every table had a corresponding data model in the application: a class, with compile-time types and runtime validation, that knew what it was. A policy document was a <code>PolicyDocument</code>. It had an issuer, an effective date, a status, a version, and other metadata. The actual PDF lived in a cloud bucket and the model held a link to it. We were writing something close to a rich domain model, and the database was where those objects went to sleep.</p>
+        <p>Any field in the model that would be needed to filter, sort, or join on became a column in the table. Issuer, status, effective date, the foreign keys. Typed, indexed, cheap. Everything else went into a single <code>jsonb</code> column.</p>
+        <p>The reasoning there was about access patterns rather than effort. Every one of those remaining fields was only ever read as part of loading the whole object, and nobody was ever going to write <code>WHERE &lt;jsonb_col&gt;-&gt;&gt;'reviewer_note' = ...</code>. They existed to be rehydrated into a <code>PolicyDocument</code> and handed to business logic, and they had no independent life as query targets.</p>
+        <p>So the row was a small, sharp, queryable index (single, composite, whatever was needed without index bloat) into an object, with the object’s long tail folded up behind it. </p>
+        <p>I liked this model, it was just...clean. I guess it scratched an itch (haha). Not that I’ll use it any more because there’s a lot of overhead that any decent ORM library takes care of anyway, and I don’t want to be reinventing the wheel. </p>
+        <h2>Fast forward to 2026.</h2>
+        <p>There’s a system indexes an org and produces a report. The report is a JSON. It is a large JSON. It’s stored in a <code>jsonb</code> column on a table whose other columns are an id, an org id, a status, and some timestamps.</p>
+        <p>That’s the entire design, and it had been running in production for a while, eventually spiking the database CPU (to a number big enough to raise eyebrows) once large enough orgs had started getting indexed.</p>
+        <p>After a lot of Codex-enabled code sifting to get to the cause, I landed on the schema, found the column, and got that specific “oh no...” feeling you get when the bug you’re chasing turns out to be the architecture. So I did what you do: days of metrics, storage measurements, controlled reproductions, a read-only RCA doc.</p>
+        <p>And that doc is why this post exists, because it answered “why is the CPU pinned?” a long time before it answered the question I actually got stuck on, which is how something this wrong stays invisible for weeks. That answer lives about four layers below the SQL, in machinery you never interact with directly and that Postgres works very hard to make sure you never have to think about.</p>
+        <p>So let’s go look at it. Everything after this section is going to cash out. Or you can straight jump to “The story”.</p>
+        <h2>Before we go further: what Postgres is actually doing under the hood</h2>
+        <figure>
+        <img src="/assets/writing/postgres-page-layout.jpg" width="1000" height="747" alt="A PostgreSQL 8 KB page: fixed header, a line-pointer array growing forward from the front, tuples growing backward from the end, free space in the middle.">
+        <figcaption>(definitely not nanobanana generated)</figcaption>
+        </figure>
+        <h3>Pages:</h3>
+        <p>Postgres has no mechanism for reading a single row off disk. What it actually works in is the <strong>page</strong>: 8 KB, the atomic unit of heap tables, indexes, all of it.</p>
+        <p>A table on disk is an array of 8 KB pages in a file. When you ask for one row, Postgres finds the page holding it, reads all 8 KB into memory, and picks your row out of it. There is no smaller unit of I/O, and no such thing as fetching half a page.</p>
+        <p>Inside a page you get a small header, then an array of line pointers growing forward from the front, then tuples (row versions) growing backward from the end, with free space in the middle. The line pointers are a level of indirection, so a row can shuffle around inside its page without anything that points at it having to care.</p>
+        <p>That 8 KB number is going to explain almost everything else, keep it in your mind’s L1 cache.</p>
+        <h3>Shared buffers:</h3>
+        <p>Reading a page from disk every time the database has a query is absurd. A memory access lands in something like a hundred nanoseconds; the same page off a local SSD costs tens of microseconds, and on a cloud instance, where the “disk” is almost always network-attached storage rather than a physical device bolted to the machine, you’re into milliseconds. That’s two to four orders of magnitude, and the backend pays it synchronously, blocked, doing nothing else while it waits. So Postgres keeps a cache of pages in memory called the <strong>shared buffer pool</strong>, an array of slots each exactly one page wide, sized by <code>shared_buffers</code>.</p>
+        <p>When a backend wants a page it checks the buffer pool first. On a hit it uses the copy in memory and does no I/O at all. On a miss it has to find a free slot, read the page off disk into it, and then use it.</p>
+        <p>There’s a second cache underneath. Postgres reads through the filesystem, so the OS keeps its own <strong>page cache</strong> of the same data, which means a page you read often typically exists twice in RAM: once in Postgres’s buffer pool, once in the kernel’s. This is why the standard advice is to give <code>shared_buffers</code> about a quarter of your memory and not all of it, you’re sharing that RAM with the kernel’s copy of the same pages whether you like it or not.</p>
+        <p>When a backend modifies a page, it modifies the cached page in memory rather than the physical location of the data on disk, and that page then becomes <strong>dirty</strong>, meaning the change now exists in memory and nowhere else. Nothing goes to storage yet. Your <code>UPDATE</code> returning successfully does not mean your data page was written anywhere. Before that dirty page can be evicted, it has to be flushed to disk, or the change goes with it (and if the machine dies before that flush ever happens, what saves you is the WAL, which is next).</p>
+        <h3>Eviction:</h3>
+        <p>The buffer pool is finite, so when every slot is full and you need one more page, something has to go. Postgres picks the victim with a <strong>clock sweep</strong>: each buffer carries a usage counter, a hand rotates around the pool decrementing counters, and the first buffer it finds with a count of zero and nobody currently using it gets evicted.</p>
+        <p>Here is the part that matters. If the victim is <strong>clean</strong>, eviction costs nothing, because you can overwrite the slot and move on. If the victim is <strong>dirty</strong>, it can’t simply be dropped, because that memory holds the only copy of the change. The backend that just wanted to read something must now stop and write that page out before it can have its slot.</p>
+        <p>Which means a plain <code>SELECT</code> can find itself flushing a page it never touched, on behalf of a transaction it has nothing to do with.</p>
+        <p>And notice what eviction really costs you, which isn’t the memory. The page you evicted was useful, and the next query that needs it now pays a disk read it used to get for free. A workload that drags a large volume of pages through the pool isn’t merely using cache, it’s <strong>destroying</strong> cache, for everyone, including queries that have nothing to do with it.</p>
+        <h3>The write-ahead log (WAL):</h3>
+        <p>So dirty pages sit in memory. Before any change to a data page is allowed to reach disk, a record describing that change must already be durably on disk, in a sequential log. Log first, then data, which is the whole name: write-ahead.</p>
+        <p>Every write you do gets recorded twice, once as a WAL record and once eventually as the data page itself. Such is the price of not losing your data (and why write volume is never merely the size of what you wrote).</p>
+        <p>The first time a page is dirtied after a checkpoint, Postgres writes <strong>the entire 8 KB page into the WAL</strong>, not just your change. It’s called a full page image, and it exists because a crash mid-write can leave a page half-updated on disk, and a diff applied to a torn page is garbage. So a two-byte change to a fresh page can cost you 8 KB of log.</p>
+        <p>The WAL is also the reason dirty pages get to be lazy. The change is already safe in the log, so Postgres can flush the data page whenever it feels like it, in bulk, at a checkpoint.</p>
+        <h3>MVCC (you never actually update anything):</h3>
+        <p>Postgres is MVCC, which means concurrent readers never block on writers. It buys that with a specific trick: <strong>an <code>UPDATE</code> does not modify a row.</strong> It writes a new version of the row somewhere and stamps the old version as expired as of your transaction. Both versions physically exist, and which one you see depends on your snapshot.</p>
+        <p>Physically, then, an update is an insert plus a tombstone. The old version stays on disk, taking up space and getting read into buffers along with everything else on its page, until <code>VACUUM</code> comes along, determines that no live transaction can still see it, and reclaims the space.</p>
+        <p>So updating a row costs more than writing the new data. It costs the new tuple, WAL for it, index entries pointing at it, and a corpse that somebody has to clean up later. Update a row often enough without adequate vacuuming and the table bloats, spreading the same live data over more and more pages, each read dragging more dead weight through your buffer pool.</p>
+        <p>There’s an optimization called <strong>HOT</strong> (heap-only tuple). If your update doesn’t touch any indexed column, and the new version fits on the same page as the old one, Postgres chains it in place and skips updating the indexes entirely. HOT is great. Remember its two conditions, because HOT is going to show up later wearing a disguise.</p>
+        <h3>TOAST:</h3>
+        <p>Which brings us to the question this has all been walking toward: what happens when a value doesn’t fit in an 8 KB page?</p>
+        <p>Postgres wants at least four tuples per page, which caps a tuple at roughly 2 KB. Go over that and <strong>TOAST</strong> engages: The Oversized-Attribute Storage Technique (yes, it’s a backronym).</p>
+        <p>TOAST tries two things in order. First, it compresses the oversized variable-length attributes, and if that gets the tuple under the limit the value stays in your row, compressed, and you’re done. If it’s still too big, TOAST moves the value out of line: out of your table entirely, into a separate companion relation, <strong>a different file on disk</strong>, created automatically the moment you declared a <code>jsonb</code> column and which you have probably never looked at.</p>
+        <p>That companion table has three columns: a chunk id, a chunk sequence number, and a <code>bytea</code> of chunk data. Your value gets sliced into chunks of just under 2 KB each, sized precisely so that four chunk rows fit in one 8 KB page. Same arithmetic as before, applied one level down.</p>
+        <p>So a value that is N bytes after compression becomes <strong>ceil(N / 2 KB) rows</strong>, each with its own tuple header, each with an entry in the TOAST table’s index, each living on a page that has to be located and read individually. Do that division for a value of any real size and the answer comes out in the thousands, which is the point at which you should stop picturing a report as one value and start picturing it as a small table.</p>
+        <h3>The pointer isn’t a pointer:</h3>
+        <p>The genuinely beautiful (horrible) part.</p>
+        <p>What’s left in your actual row, where the value used to be, is 18 bytes, and you can account for every one of them:</p>
+        <ul><li>2 bytes: a header saying “I am a TOAST pointer”</li><li>4 bytes: the original size</li><li>4 bytes: the stored size after compression</li><li>4 bytes: <strong>a chunk id</strong></li><li>4 bytes: the OID of which TOAST table to look in</li>
+        </ul>
+        <p>That accounts for all eighteen, and notice what the list doesn’t contain anywhere: <strong>an address.</strong>
+        </p>
+        <p>So this isn’t a pointer in the C sense, because there is nothing to dereference. What it actually is, is a foreign key. To get your value back, Postgres takes that chunk id, walks a B-tree index on the TOAST table, finds the chunk rows, reads each of their pages, concatenates the pieces in sequence order, and decompresses the result. Only then do you have a value. You never wrote that join, you don’t see it in your query, and it fires on every single read.</p>
+        <p>Your data isn’t adjacent to your row, or near your row, or even in the same file as your row. The next logical byte after that 18-byte stub is whatever unrelated column came next in the tuple, while your report sits somewhere else entirely, scattered across a side relation in an order nobody promised you.</p>
+        <p>And one more thing, since this is where the last section pays off. The planner keeps statistics on your column, and they report an average width of <strong>18 bytes</strong>, because the on-row datum genuinely is 18 bytes. I assumed this was a bug for about ten minutes before I went and read the source, where <code>ANALYZE</code> carries a comment saying, in effect, if the value is toasted, we use the toasted width. It’s deliberate. The column that dominates your entire storage footprint is, to the query planner’s cost model, narrower than a UUID.</p>
+        <h3>Stitching it together:</h3>
+        <p>Now put the whole machine in one frame and watch what a single large <code>jsonb</code> write actually costs.</p>
+        <p>You replace one value in one row. Postgres compresses your payload, allocates a fresh chunk id, and inserts a thousand-ish chunk rows into the TOAST relation. Those chunk rows land on hundreds of pages, all of which get pulled into the buffer pool and dirtied. Every one of those inserts generates WAL, and every page dirtied for the first time since the last checkpoint drags a full 8 KB page image into the WAL along with it. The index on the TOAST table needs an entry per chunk, which dirties more pages, which makes more WAL.</p>
+        <p>And MVCC is still MVCC through all of this, so the previous version of your value is sitting right there, every chunk of it. TOAST values never get updated in place, only inserted and deleted, so the old chain stays on disk as garbage until vacuum gets to it. You didn’t overwrite a report, you wrote a second one and left the first one lying around.</p>
+        <p>Then all those dirty pages need slots, and the buffer pool only has so many. The clock sweep starts evicting to make room, and what it evicts is whatever was already in there, which is the small, hot, deeply boring index pages that make your ordinary queries fast. Those queries go to disk now, and on a small instance that’s the same disk and the same CPU your write is already saturating.</p>
+        <p>Reading it back is the same story with the arrows reversed: index walk, hundreds of page reads, decompress, parse into a JSONB tree, materialize. And critically, shared buffers cache the compressed chunk pages, not the parsed value. There is no shared, ready-to-use copy of your report anywhere in memory, so every backend that wants it rebuilds it from chunks, privately, in its own memory, from scratch, every single time.</p>
+        <p>None of this is Postgres doing something wrong. Every mechanism above is load-bearing, correct, and part of why Postgres is trustworthy, and TOAST in particular is a fantastic piece of engineering. All of it was simply designed for values that are occasionally too big, on rows that are otherwise normal rows.</p>
+        <h2>The story</h2>
+        <p>So: a report. One large JSON. One <code>jsonb</code> column. A row that is otherwise an id, an org id, a status, and some timestamps.</p>
+        <p>Go back to the first job for a second, because the difference isn’t “we used jsonb in both places.” There, the <code>jsonb</code> was the tail of an entity. The row was a real object with real columns, and the <code>jsonb</code> carried the leftovers that nothing ever queried. TOAST barely engaged, and when it did it was on the fat outliers, which is the exact case it exists for.</p>
+        <p>Here the <code>jsonb</code> <strong>is</strong> the entity. The scalar columns are vestigial (strip the report column out and there’s no object left, just a receipt saying a job finished). The table isn’t modelling a thing that has a report, it’s a filing cabinet with one blob per row and a label taped to the front.</p>
+        <p>What’s in that cabinet is a file, and you’ve just read eight sections on why Postgres is an expensive place to keep files.</p>
+        <p>Nobody sat down and decided this, which is the part that gets me. Nobody ever does. You get a <code>jsonb</code> column when the persistence layer is whatever the autocomplete suggested and there’s nobody in the room with enough database instinct to ask what happens when this grows. It worked in dev. It kept working for weeks, and by the time it stopped working the shape was load-bearing, which is its own problem.</p>
+        <p>Here’s the bill, in ratios (the ratios are the point, and the actual numbers aren’t mine to publish).</p>
+        <p><strong>The table is not in the table.</strong> The TOAST relation is <strong>over eight thousand times</strong> the size of the parent heap it belongs to. Virtually the whole table, by volume, is in the annex. Read that as an architecture statement rather than a storage stat: Postgres looked at this data, decided it did not belong in a row, and quietly built a blob store to cope. We already had a blob store, it’s called a bucket, and it doesn’t attach MVCC and a write-ahead log to your object graph.</p>
+        <p><strong>The control group.</strong> That same schema has two other <code>jsonb</code> columns (one holds per-issue metadata, the other a bit of config). Neither has ever crossed the toast threshold, so neither has been moved out of line in its life, and the TOAST relations sitting behind those tables are empty enough to round to nothing. Same database, same engine, same data type, same everything. The report column is four orders of magnitude bigger than either of them and it’s the only one that’s a problem, so whatever’s wrong here, it isn’t <code>jsonb</code>.</p>
+        <p><strong>Reads.</strong> Same query, same rows, cache-warm, no disk I/O at all. Select the scalars and it’s instant, one buffer. Force it to materialize the report and it’s <strong>four orders of magnitude slower</strong>, touching about <strong>200 times more shared buffers</strong> (in production, the count for the same three rows went from one to several hundred).</p>
+        <p>Four orders of magnitude with everything already in memory. All of that is the machinery from the last section, paid per backend, on every read: index walk, chunk gather, decompress, parse, materialize.</p>
+        <p>There’s a second multiplier hiding in that word “materialize”. What sits on disk is the compressed form. What crosses into your backend’s private memory is the logical JSON, which runs <strong>about seven times larger</strong>. So the size you’d get from measuring your storage isn’t the size that lands in RAM, and it lands there once per backend, per read, with no shared copy.</p>
+        <p><strong>Writes.</strong> One completed cycle generated <strong>several times the report’s own stored size in WAL alone</strong>, and well over ten times its size in total disk writes. You know where all of it went now: chunk inserts, full page images, TOAST index maintenance, and a dead previous chain sitting there waiting on vacuum.</p>
+        <p>The one that stopped me was disk reads, at roughly <strong>seventeen times</strong> the report’s size, on a cycle whose entire job was to write. Index lookups to find things, pages fetched in so they could be dirtied, the read half of writes that nobody thinks of as reads.</p>
+        <p>And here’s HOT in its disguise. Almost every update to that table qualifies as HOT, because the indexed columns don’t change, so by the parent table’s statistics this workload looks clean. That’s the bit that took me longest to see. HOT only ever protected the parent’s indexes, it has no opinion at all about the thousand chunk rows being rewritten one relation over. The metric that was supposed to tell us the writes were cheap was measuring the one part of the write that was.</p>
+        <p>Mean CPU on that instance sits at about a sixth of capacity while the p99 is up at the ceiling. I’ll be straight about attribution here, because the RCA had to be: not every one of those spikes is the report’s fault. That database has a separate self-inflicted problem where migration logic runs on every container start, and that owns most of the long plateaus. But the short violent ones have a completely different signature, WAL and disk and memory all spiking together, and they line up with report finalization. They look like exactly what the last section says they should look like: an idle database, and then one write takes the whole machine hostage and drags every unrelated query down with it, through a buffer pool it just finished evicting.</p>
+        <h3>The trap is that Postgres is too good at this</h3>
+        <p>Every problem above has a Postgres answer. Value too big? TOAST handles it, automatically, silently. Compression too weak? Change the strategy, or switch to LZ4. Fetching too much? Project individual keys with <code>-&gt;</code> instead of selecting the column. Need to search inside it? GIN index. Reads still slow? Redis. CPU too high? The instance resizes with one click.</p>
+        <p>Every one of those works, which is what makes it a trap.</p>
+        <p>Postgres will meet you at every step of a bad idea, so you never hit the wall that would have made you stop. You get a slope instead, and every individual step down it is defensible on its own. Nobody ever sees an error saying this value does not belong in a database. You get a slightly slower Tuesday, and then a slightly slower Tuesday, and eighteen months later your p99 is a cliff and your table is a rounding error inside its own annex.</p>
+        <p>A bucket is worse at all of this, except for the one thing that matters, which is that it makes you decide. Writing to a bucket forces you to say out loud that this is an artifact with a lifecycle and not a field, and once you’ve said it out loud the rest falls out for free: keep the scalars you actually query as columns, keep a reference and a hash and a schema version, let the big immutable thing live where big immutable things live.</p>
+        <p>Which is what we were doing at the first job with those PDFs. I didn’t realize at the time that it was a decision. It just looked like where the PDF goes.</p>
+        <h2>So, should you put JSON in Postgres?</h2>
+        <p>Frankly, even though I wrote the article, I’m still not comfortable with the question in that heading. The real one is:</p>
+        <p><strong>Is this JSON a property of the thing you’re modelling, or is it the thing itself?</strong>
+        </p>
+        <p>If the row is a real entity with real queryable structure, and the <code>jsonb</code> is a long tail of attributes that only ever get read as part of loading that entity, then yes, use it, that’s what it’s for. It stays small, it rarely toasts, and it rides along on a row that has its own reason to exist.</p>
+        <p>“It’s a bag of fields with no query pattern and I don’t want thirty nullable columns” is a real reason.  </p>
+        <p>“I don’t want to write a migration” is a deferral.  </p>
+        <p>And <code>jsonb</code> really is the most convenient “feature” that makes these deferrals seem like decisions. It can take you away from modelling your data the way it needs to be. </p>
+        <p>And if the JSON <strong>is</strong> the entity? Large, immutable once written, always consumed whole, sitting on a row that only exists to hold it? Then it’s a file, so treat it like one. Put it in a bucket, keep the queryable scalars in Postgres next to a reference and a hash and a schema version, and let the database go back to being a database. If you genuinely need to query deep inside those documents then you don’t want a JSON column in a relational store at all, you want a document store, and you should go get one on purpose instead of building a worse one out of TOAST chunks and Redis.</p>
+        <p>Postgres will let you store the report. It’ll compress it, chunk it, index it, cache it, serve it, and it’ll do every one of those well enough that you won’t notice for far longer than you should. It never once told us no, and I’m still turning that part over.</p>
+        <p>Postgres offers you flexibility. Some flexibility is good, but good lord, using too much of anything is bad.</p>
+        <p class="post-orig">Also published on <a href="https://donnyeatstech.substack.com/p/should-you-store-jsons-in-postgres" target="_blank" rel="noopener">Substack</a>.</p>
+      </div>
+
+      <a class="post-back" href="/writing/">&larr; all writing</a>
+    </article>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-bottom">
+        <span class="fb-brand">donny eats tech</span>
+        <div class="foot-social">
+          <a href="https://github.com/donnyeatstech" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.604-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.62-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+          <a href="https://x.com/donnyeatstech" target="_blank" rel="noopener" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          <a href="https://substack.com/@donnyeatstech" target="_blank" rel="noopener" aria-label="Substack"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg></a>
+          <a href="/work/resume.pdf" target="_blank" rel="noopener" class="fb-resume">résumé</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

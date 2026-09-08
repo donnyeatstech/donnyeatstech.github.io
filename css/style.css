@@ -224,16 +224,30 @@ main.wrap { padding-bottom: 20px; flex: 1 0 auto; width: 100%; }
 .post-header { padding: 40px 0 0; margin-bottom: 36px; }
 .post-header .post-date { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); margin-bottom: 12px; }
 .post-header h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 300; letter-spacing: -0.025em; line-height: 1.05; }
+.post-header .post-sub { margin-top: 18px; font-size: 1.15rem; line-height: 1.6; color: var(--muted); max-width: 60ch; }
+.post-header .post-sub code { font-family: var(--mono); font-size: 0.82em; background: var(--surface); padding: 2px 6px; border-radius: 2px; }
 .post-content { font-size: 1.05rem; line-height: 1.75; max-width: 68ch; }
 .post-content p { margin-bottom: 1.2em; color: var(--muted); }
 .post-content ul { margin: 0 0 1.2em 1.2em; color: var(--muted); }
 .post-content li { margin-bottom: 0.4em; }
 .post-content h2 { font-size: 1.6rem; font-weight: 400; margin: 1.8em 0 0.7em; color: var(--fg); }
+.post-content h3 { font-size: 1.2rem; font-weight: 500; margin: 1.6em 0 0.5em; color: var(--fg); }
+.post-content strong { color: var(--fg); font-weight: 500; }
 .post-content a { color: var(--fg); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--muted); }
 .post-content a:hover { text-decoration-color: var(--fg); }
 .post-content code { font-family: var(--mono); font-size: 0.85em; background: var(--surface); padding: 2px 6px; border-radius: 2px; }
 .post-content pre { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 16px; overflow-x: auto; margin: 1.5em 0; }
 .post-content pre code { background: none; padding: 0; }
+.post-content p.math { text-align: center; margin: 1.5em 0; }
+.post-content p.math code { background: none; padding: 0; font-size: 1em; color: var(--fg); }
+.post-content figure { margin: 1.8em 0; }
+.post-content figure img { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 2px; }
+.post-content figcaption { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); margin-top: 8px; text-align: center; }
+.post-content blockquote { border-left: 2px solid var(--border); padding-left: 16px; margin: 1.5em 0; color: var(--muted); font-style: italic; }
+.post-orig { margin-top: 3em; padding-top: 1.5em; border-top: 1px solid var(--border); font-family: var(--mono); font-size: 0.8rem; color: var(--muted); }
+.post-orig a { color: var(--fg); }
+.post-back { display: inline-block; margin-top: 2.5em; font-family: var(--mono); font-size: 0.8rem; color: var(--muted); }
+.post-back:hover { color: var(--fg); }
 
 /* responsive */
 @media (max-width: 720px) {

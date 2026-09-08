@@ -18,8 +18,8 @@
 
 ## Writing
 
-- [Yes, you can store JSONs in Postgres. No, you shouldn't. Well, it depends](https://substack.com/@donnyeatstech/p-164607285): PostgreSQL JSON/JSONB storage mechanics, indexing tradeoffs, and query performance.
-- [From the Birthday Paradox to Consistent Hashing](https://substack.com/@donnyeatstech/p-162607285): A conceptual bridge from probability to load distribution in distributed systems.
+- [Yes, you can store JSONs in Postgres. No, you shouldn't. Well, it depends](https://donnyeatstech.com/writing/should-you-store-jsons-in-postgres/): PostgreSQL JSON/JSONB storage mechanics, TOAST chunking, WAL and MVCC costs, told through a production RCA. Also on Substack.
+- [From the Birthday Paradox to Consistent Hashing](https://donnyeatstech.com/writing/from-birthday-paradox-to-consistent-hashing/): A conceptual bridge from probability to load distribution in distributed systems. Also on Substack.
 
 ## Projects
 

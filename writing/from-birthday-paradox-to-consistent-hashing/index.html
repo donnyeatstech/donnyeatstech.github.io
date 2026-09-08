@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Birthday paradox → consistent hashing: the max-load problem</title>
+  <meta name="description" content="How the birthday problem and balls-into-bins explain why classic consistent hashing leaves hot spots — and where the power of two choices comes in.">
+  <meta name="author" content="Donny">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="canonical" href="https://donnyeatstech.com/writing/from-birthday-paradox-to-consistent-hashing/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="donny eats tech">
+  <meta property="og:title" content="From the Birthday Paradox to Consistent Hashing">
+  <meta property="og:description" content="How the birthday problem and balls-into-bins explain why classic consistent hashing leaves hot spots — and where the power of two choices comes in.">
+  <meta property="og:url" content="https://donnyeatstech.com/writing/from-birthday-paradox-to-consistent-hashing/">
+  <meta property="og:image" content="https://donnyeatstech.com/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="article:published_time" content="2026-06-13">
+  <meta property="article:author" content="Donny">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@donnyeatstech">
+  <meta name="twitter:creator" content="@donnyeatstech">
+  <meta name="twitter:title" content="From the Birthday Paradox to Consistent Hashing">
+  <meta name="twitter:description" content="How the birthday problem and balls-into-bins explain why classic consistent hashing leaves hot spots — and where the power of two choices comes in.">
+  <meta name="twitter:image" content="https://donnyeatstech.com/og.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127869;&#65039;</text></svg>">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": "https://donnyeatstech.com/writing/from-birthday-paradox-to-consistent-hashing/#post",
+        "headline": "Birthday paradox \u2192 consistent hashing: the max-load problem",
+        "name": "From the Birthday Paradox to Consistent Hashing",
+        "description": "How the birthday problem and balls-into-bins explain why classic consistent hashing leaves hot spots \u2014 and where the power of two choices comes in.",
+        "datePublished": "2026-06-13",
+        "dateModified": "2026-06-13",
+        "url": "https://donnyeatstech.com/writing/from-birthday-paradox-to-consistent-hashing/",
+        "mainEntityOfPage": { "@type": "WebPage", "@id": "https://donnyeatstech.com/writing/from-birthday-paradox-to-consistent-hashing/" },
+        "author": { "@id": "https://donnyeatstech.com/#person" },
+        "publisher": { "@id": "https://donnyeatstech.com/#person" },
+        "isPartOf": { "@id": "https://donnyeatstech.com/writing/#page" },
+        "inLanguage": "en",
+        "keywords": "consistent hashing, birthday paradox, balls into bins, maximum load, power of two choices, distributed systems"
+      },
+      {
+        "@type": "Person",
+        "@id": "https://donnyeatstech.com/#person",
+        "name": "Donny",
+        "alternateName": "donny eats tech",
+        "url": "https://donnyeatstech.com/",
+        "sameAs": [
+          "https://substack.com/@donnyeatstech",
+          "https://x.com/donnyeatstech",
+          "https://github.com/donnyeatstech"
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a href="#main" class="skip-link">skip to content</a>
+
+  <header class="hdr">
+    <div class="wrap">
+      <a href="/" class="brand">donny eats tech</a>
+      <nav class="nav" aria-label="Primary">
+        <a href="/">home</a>
+        <a href="/writing/" class="active">writing</a>
+        <a href="/work/">work</a>
+        <a href="/projects/">projects</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap" id="main">
+    <article>
+      <header class="post-header">
+        <div class="post-date">13 jun 2026 &middot; 3 min read</div>
+        <h1>From the Birthday Paradox to Consistent Hashing</h1>
+        <p class="post-sub">The start of a walk through Google’s “Consistent Hashing with Bounded Loads”, from probability first principles.</p>
+      </header>
+
+      <div class="post-content">
+        <p>In distributed systems, consistent hashing is how you decide which server stores which piece of data. The classic version is essentially the “balls into bins” model: each item (ball) is assigned to a random server (bin). That means the <strong>maximum load</strong> on any server – the busiest machine – grows like</p>
+        <p class="math"><code>Θ(log n / log log n)</code></p>
+        <p>where <em>n</em> is the number of servers. For <em>n</em>=1000000, that’s only about 5 or 6.</p>
+        <p>It may sound tiny, but for systems that need strict guarantees, it’s not small enough. A server might still get 10–20× more requests than another. <strong>Hot spots happen</strong> – a single machine melts while others sit idle.</p>
+        <p>In 2016, Google published <em>“Consistent Hashing with Bounded Loads”</em>. The paper then adds a hard capacity limit, guaranteeing that no server ever exceeds a user‑defined bound.</p>
+        <p>I’m currently reading this paper. It’s a fantastic opportunity to revise probability and randomized algorithms. Because to really understand why the classic scheme gives</p>
+        <p class="math"><code>Θ(log n / log log n)</code></p>
+        <p>and why two choices blows it out of the water, you have to go back to the beginning.</p>
+        <h2>The birthday problem</h2>
+        <p>We have <em>n</em> people, 365 days. The chance of <em>no</em> shared birthday is:</p>
+        <p class="math"><code>P(no match) = (365/365) · (364/365) · ⋯ · ((365 − n + 1)/365)</code></p>
+        <p>For <em>n</em>=23, that product dips below 0.5, so a collision is more likely than not. The key insight: the number of pairs grows like <em>n</em>². Even though any single pair is unlikely to match, there are so many pairs that the improbable becomes probable.</p>
+        <p>Takeaway: If you’re looking for <em>any</em> collision among random items, the threshold grows like the square root of the number of possibilities. For birthdays, √365 ≈ 19, and the real answer is 23. That’s very different from the “linear” guess of 183 (half of 365).</p>
+        <h2>Now swap parties for servers</h2>
+        <p>Let’s generalise. Instead of days, think <em>bins</em>. Instead of people, think <em>balls</em>. Throw <em>n</em> balls randomly into <em>n</em> bins. The birthday paradox tells us a collision is almost certain. But a more interesting question, and more relevant in this context: how full does the <em>fullest</em> bin get?</p>
+        <p>That’s the <strong>maximum load</strong> problem. In computing, each bin is a server, each ball is a request. If one server ends up with way too many requests, it’s a bottleneck.</p>
+        <p>Say the balls and the bins are equal in number. What’s the maximum load then? One can highhandedly think of it as 1. But the answer is:</p>
+        <p class="math"><code>Θ(log n / log log n)</code></p>
+        <p>Even for a million bins (<em>n</em>=10⁶), <em>log(n)</em>≈13.8 and <em>log(log(n))</em>≈2.6, so the ratio is about <strong>5.3</strong>. The fullest bin holds only 5 or 6 balls on average. In practice, with 10⁶ servers, you’ll still see some servers with load 10, 12, or even 15, while others sit at 0 or 1. For a system that processes billions of requests per second, a <strong>2×</strong> imbalance is a disaster.</p>
+        <p>You don’t want your system to work on the Pareto Principle. This is exactly the problem that Google solved with its paper.</p>
+        <h2>Fast forward to consistent hashing</h2>
+        <p>Classic consistent hashing assigns each item to a <strong>single</strong> random server, the balls‑into‑bins model. Consequently, the maximum load grows like</p>
+        <p class="math"><code>Θ(log n / log log n)</code></p>
+        <p>While that’s small, it isn’t <strong>bounded</strong>. In a dynamic system with servers joining and leaving, the constant can become problematic.</p>
+        <p>The <strong>power of two choices</strong> (look at two random servers, pick the less loaded one) changes the game completely. The maximum load drops to</p>
+        <p class="math"><code>Θ(log log n)</code></p>
+        <p>which is exponentially better. But we’ll get to that in its time.</p>
+        <p class="post-orig">Also published on <a href="https://donnyeatstech.substack.com/p/from-birthday-paradox-to-consistent" target="_blank" rel="noopener">Substack</a>.</p>
+      </div>
+
+      <a class="post-back" href="/writing/">&larr; all writing</a>
+    </article>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-bottom">
+        <span class="fb-brand">donny eats tech</span>
+        <div class="foot-social">
+          <a href="https://github.com/donnyeatstech" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.604-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.62-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+          <a href="https://x.com/donnyeatstech" target="_blank" rel="noopener" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          <a href="https://substack.com/@donnyeatstech" target="_blank" rel="noopener" aria-label="Substack"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg></a>
+          <a href="/work/resume.pdf" target="_blank" rel="noopener" class="fb-resume">résumé</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
