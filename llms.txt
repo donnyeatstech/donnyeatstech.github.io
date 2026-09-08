@@ -1,10 +1,10 @@
 # Donny — Backend Engineer
 
-> Donny (donny eats tech) is a backend engineer specializing in distributed systems, databases, and infrastructure. Currently Senior Software Engineer at Clientell, where he owns the AI-agent execution path and built the Salesforce org-indexing platform. Based in Bengaluru, India. Writes long-form technical deep-dives on Substack.
+> Donny (donny eats tech) is a backend engineer specializing in distributed systems, databases, and infrastructure. Currently Software Engineer at Clientell, where he owns the AI-agent execution path and built the Salesforce org-indexing platform. Based in Bengaluru, India. Writes long-form technical deep-dives on Substack.
 
 ## About
 
-- **Role:** Senior Software Engineer at Clientell (Oct 2025 – present)
+- **Role:** Software Engineer at Clientell (Oct 2025 – present)
 - **Focus:** Backend engineering — distributed systems, databases, infrastructure, observability
 - **Location:** Bengaluru, India
 - **Core stack:** Go, Python, PostgreSQL, Redis, FastAPI, GCP, AWS, Pub/Sub, OpenTelemetry
@@ -12,8 +12,8 @@
 
 ## Experience
 
-- **Clientell — Senior Software Engineer (Oct 2025 – present):** Owns the AI-agent execution path end to end; built the Salesforce org-indexing platform as an orchestrator/worker system on Pub/Sub (~28k work items/run, autoscaling to 100 Cloud Run instances). Cut tool-call latency from ~4s to ~800ms. Clientell is an AI agent for Salesforce deployed across 500+ orgs including Notion, Rakuten, and PwC.
-- **Fae — Lead Backend Engineer (Jan 2025 – Oct 2025):** Rewrote a legacy NestJS codebase into a two-service FastAPI monolith; implemented ABAC authorization with audit logging; halved payment execution latency from ~5s to ~2.5s.
+- **Clientell — Software Engineer (Oct 2025 – present):** Owns the AI-agent execution path end to end; built the Salesforce org-indexing platform as an orchestrator/worker system on Pub/Sub (~28k work items/run, autoscaling to 100 Cloud Run instances). Cut tool-call latency from ~4s to ~800ms. Clientell is an AI agent for Salesforce deployed across 500+ orgs including Notion, Rakuten, and PwC.
+- **Fae — Backend Engineer (Jan 2025 – Oct 2025):** Rewrote a legacy NestJS codebase into a two-service FastAPI monolith; implemented ABAC authorization with audit logging; halved payment execution latency from ~5s to ~2.5s.
 - **Gida Technologies — Software Engineer (Oct 2022 – Nov 2023):** Built a daily ETL pipeline ingesting ~600k health-insurance records into BigQuery with PGP encryption for India's Ayushman Bharat Digital Mission (ABDM).
 
 ## Writing
