@@ -36,7 +36,10 @@
   {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
+    "@id": "https://donnyeatstech.com/projects/#page",
     "url": "https://donnyeatstech.com/projects/",
+    "isPartOf": { "@id": "https://donnyeatstech.com/#website" },
+    "author": { "@id": "https://donnyeatstech.com/#person" },
     "name": "Projects — Donny",
     "about": ["Distributed systems", "Systems programming", "Go"],
     "hasPart": [
@@ -45,14 +48,16 @@
         "name": "redis-go",
         "description": "Redis-compatible server in Go — RESP2 protocol, TTL expiry, SQLite-backed durability.",
         "codeRepository": "https://github.com/donnyeatstech/redis-go",
-        "programmingLanguage": "Go"
+        "programmingLanguage": "Go",
+        "author": { "@id": "https://donnyeatstech.com/#person" }
       },
       {
         "@type": "SoftwareSourceCode",
         "name": "mit-6.5840",
         "description": "MIT's distributed systems course — Raft, MapReduce, and distributed key-value stores.",
         "codeRepository": "https://github.com/donnyeatstech/mit-6.5840",
-        "programmingLanguage": "Go"
+        "programmingLanguage": "Go",
+        "author": { "@id": "https://donnyeatstech.com/#person" }
       }
     ]
   }
