@@ -7,12 +7,12 @@
 - **Role:** Senior Software Engineer at Clientell (Oct 2025 – present)
 - **Focus:** Backend engineering — distributed systems, databases, infrastructure, observability
 - **Location:** Bengaluru, India
-- **Core stack:** Go, Python, PostgreSQL, Redis, FastAPI, GCP, AWS, Pub/Sub, OpenTelemetry
+- **Core stack:** Go, Python, PostgreSQL, Redis, FastAPI, AWS, GCP, Terraform, Pub/Sub, OpenTelemetry
 - **Interests:** Postgres internals, consistent hashing, Raft/consensus, systems programming
 
 ## Experience
 
-- **Clientell — Senior Software Engineer (Oct 2025 – present):** Owns the AI-agent execution path end to end; built the Salesforce org-indexing platform as an orchestrator/worker system on Pub/Sub (~28k work items/run, autoscaling to 100 Cloud Run instances). Cut tool-call latency from ~4s to ~800ms. Clientell is an AI agent for Salesforce deployed across 500+ orgs including Notion, Rakuten, and PwC.
+- **Clientell — Senior Software Engineer (Oct 2025 – present):** Owns the AI-agent execution path end to end; built the Salesforce org-indexing platform as an orchestrator/worker system on Pub/Sub (~28k work items/run, autoscaling to 100 Cloud Run instances). Cut the agent's read-tool latency from ~4s to ~800ms. Led the 7-day GCP-to-AWS migration of all 9 services onto ~2 years of AWS credits ($15k/month cloud spend to $0, 1 hour of downtime) and moved all infra changes to Terraform via PR review. Clientell is an AI agent for Salesforce deployed across 500+ orgs including Notion, Rakuten, and PwC.
 - **Fae — Backend Engineer (Jan 2025 – Oct 2025):** Rewrote a legacy NestJS codebase into a two-service FastAPI monolith; implemented ABAC authorization with audit logging; halved payment execution latency from ~5s to ~2.5s.
 - **Gida Technologies — Software Engineer (Oct 2022 – Nov 2023):** Built a daily ETL pipeline ingesting ~600k health-insurance records into BigQuery with PGP encryption for India's Ayushman Bharat Digital Mission (ABDM).
 

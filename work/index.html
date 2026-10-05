@@ -77,11 +77,13 @@
         <div class="xp-co">
           AI agent for Salesforce. Founded 2021 (Wilmington, DE). $3.2M+ raised. Salesforce AppExchange Partner. 500+ orgs deployed including Notion, Eventbrite, Rakuten, PwC. SOC 2, HIPAA, GDPR compliant. Self-serve from $99/mo.
         </div>
-        <div class="xp-stack">Python, FastAPI, PostgreSQL, Redis, GCP, Langfuse, OpenTelemetry</div>
+        <div class="xp-stack">Python, FastAPI, PostgreSQL, Redis, AWS, ECS, Terraform, GCP, Langfuse, OpenTelemetry</div>
         <div class="xp-desc">
           Own the agent execution path end to end — tool-call latency to stream delivery to incident response.
           Built the Salesforce org indexing platform as an orchestrator-worker system on Pub/Sub handling ~28k work items per run,
-          workers autoscaling to 100 Cloud Run instances. Tool-call latency dropped from ~4s to ~800ms.
+          workers autoscaling to 100 Cloud Run instances; the agent's read-tool latency dropped from ~4s to ~800ms.
+          Led the 7-day migration of all 9 services from GCP to AWS onto ~2 years of credits, taking cloud spend from
+          $15k/month to $0 with 1 hour of downtime. Every infra change since goes through Terraform and PR review.
         </div>
       </div>
 
@@ -91,7 +93,7 @@
         <div class="xp-co">
           Electric bike startup. Bengaluru-based. Built internal platform tooling for operations — ABAC authorization, payment processing, and backend rewrite. Bootstrapped.
         </div>
-        <div class="xp-stack">FastAPI, Go, PostgreSQL, Docker, AWS ECS, GitHub Actions</div>
+        <div class="xp-stack">FastAPI, PostgreSQL, Docker, AWS ECS, GitHub Actions</div>
         <div class="xp-desc">
           Rewrote a legacy NestJS codebase into a two-service FastAPI monolith with dependency injection,
           dropping refactors worth 8-10 story points per sprint. Implemented ABAC authorization with audit logging.
