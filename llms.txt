@@ -24,6 +24,7 @@
 
 ## Projects
 
+- [superlite3](https://github.com/donnyeatstech/superlite3): Single-file embedded database written from scratch in C, modeled on SQLite3. Early: OS layer done, WAL pager in progress.
 - [redis-go](https://github.com/donnyeatstech/redis-go): Redis-compatible server in Go — RESP2 protocol, TTL expiry, SQLite-backed durability.
 - [mit-6.5840](https://github.com/donnyeatstech/mit-6.5840): MIT's distributed systems course — Raft, MapReduce, and distributed key-value stores.
 
