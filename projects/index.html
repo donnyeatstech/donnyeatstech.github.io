@@ -41,8 +41,16 @@
     "isPartOf": { "@id": "https://donnyeatstech.com/#website" },
     "author": { "@id": "https://donnyeatstech.com/#person" },
     "name": "Projects — Donny",
-    "about": ["Distributed systems", "Systems programming", "Go"],
+    "about": ["Distributed systems", "Databases", "Systems programming", "Go", "C"],
     "hasPart": [
+      {
+        "@type": "SoftwareSourceCode",
+        "name": "superlite3",
+        "description": "Single-file embedded database written from scratch in C, modeled on SQLite3.",
+        "codeRepository": "https://github.com/donnyeatstech/superlite3",
+        "programmingLanguage": "C",
+        "author": { "@id": "https://donnyeatstech.com/#person" }
+      },
       {
         "@type": "SoftwareSourceCode",
         "name": "redis-go",
@@ -85,6 +93,11 @@
 
     <section>
       <div class="project-list">
+        <a href="https://github.com/donnyeatstech/superlite3" target="_blank" rel="noopener" class="project-card">
+          <div class="project-name">superlite3</div>
+          <div class="project-desc">Single-file embedded database written from scratch in C, modeled on SQLite3. Built bottom-up: the OS layer is done and tested, the WAL-based pager is next.</div>
+          <div class="project-lang">c</div>
+        </a>
         <a href="https://github.com/donnyeatstech/redis-go" target="_blank" rel="noopener" class="project-card">
           <div class="project-name">redis-go</div>
           <div class="project-desc">Redis-compatible server in Go — RESP2 protocol, TTL expiry, SQLite-backed durability.</div>
