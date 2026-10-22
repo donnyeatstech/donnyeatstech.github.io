@@ -18,6 +18,7 @@
 
 ## Writing
 
+- [Dynamic Memory Allocation and Its Arch Enemy, Fragmentation](https://donnyeatstech.com/writing/dynamic-memory-allocation-fragmentation/): How malloc on macOS (xzone) and Ubuntu (glibc) lay out memory, glibc chunk headers, and how each allocator deals with fragmentation.
 - [Yes, you can store JSONs in Postgres. No, you shouldn't. Well, it depends](https://donnyeatstech.com/writing/should-you-store-jsons-in-postgres/): PostgreSQL JSON/JSONB storage mechanics, TOAST chunking, WAL and MVCC costs, told through a production RCA. Also on Substack.
 - [From the Birthday Paradox to Consistent Hashing](https://donnyeatstech.com/writing/from-birthday-paradox-to-consistent-hashing/): A conceptual bridge from probability to load distribution in distributed systems. Also on Substack.
 

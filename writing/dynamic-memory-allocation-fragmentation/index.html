@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Dynamic Memory Allocation and Its Arch Enemy, Fragmentation</title>
+  <meta name="description" content="Comparing how malloc on macOS (xzone) and Ubuntu (glibc) lay out memory, and how each deals with fragmentation.">
+  <meta name="author" content="Donny">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="canonical" href="https://donnyeatstech.com/writing/dynamic-memory-allocation-fragmentation/">
+  <link rel="alternate" type="application/rss+xml" title="donny eats tech — writing" href="https://donnyeatstech.com/writing/feed.xml">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="donny eats tech">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="Dynamic Memory Allocation and Its Arch Enemy, Fragmentation">
+  <meta property="og:description" content="Comparing how malloc on macOS (xzone) and Ubuntu (glibc) lay out memory, and how each deals with fragmentation.">
+  <meta property="og:url" content="https://donnyeatstech.com/writing/dynamic-memory-allocation-fragmentation/">
+  <meta property="og:image" content="https://donnyeatstech.com/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="donny eats tech">
+  <meta property="article:published_time" content="2026-10-22">
+  <meta property="article:author" content="Donny">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@donnyeatstech">
+  <meta name="twitter:creator" content="@donnyeatstech">
+  <meta name="twitter:title" content="Dynamic Memory Allocation and Its Arch Enemy, Fragmentation">
+  <meta name="twitter:description" content="Comparing how malloc on macOS (xzone) and Ubuntu (glibc) lay out memory, and how each deals with fragmentation.">
+  <meta name="twitter:image" content="https://donnyeatstech.com/og.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127869;&#65039;</text></svg>">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": "https://donnyeatstech.com/writing/dynamic-memory-allocation-fragmentation/#post",
+        "headline": "Dynamic Memory Allocation and Its Arch Enemy, Fragmentation",
+        "name": "Dynamic Memory Allocation and Its Arch Enemy, Fragmentation",
+        "description": "Comparing how malloc on macOS (xzone) and Ubuntu (glibc) lay out memory, and how each deals with fragmentation.",
+        "datePublished": "2026-10-22",
+        "dateModified": "2026-10-22",
+        "url": "https://donnyeatstech.com/writing/dynamic-memory-allocation-fragmentation/",
+        "mainEntityOfPage": { "@type": "WebPage", "@id": "https://donnyeatstech.com/writing/dynamic-memory-allocation-fragmentation/" },
+        "author": { "@id": "https://donnyeatstech.com/#person" },
+        "publisher": { "@id": "https://donnyeatstech.com/#person" },
+        "isPartOf": { "@id": "https://donnyeatstech.com/writing/#page" },
+        "inLanguage": "en",
+        "keywords": "malloc, dynamic memory allocation, fragmentation, glibc, xzone malloc, macOS, Linux, C"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://donnyeatstech.com/writing/dynamic-memory-allocation-fragmentation/#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://donnyeatstech.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Writing", "item": "https://donnyeatstech.com/writing/" },
+          { "@type": "ListItem", "position": 3, "name": "Dynamic Memory Allocation and Its Arch Enemy, Fragmentation" }
+        ]
+      },
+      {
+        "@type": "Person",
+        "@id": "https://donnyeatstech.com/#person",
+        "name": "Donny",
+        "alternateName": "donny eats tech",
+        "url": "https://donnyeatstech.com/",
+        "sameAs": [
+          "https://substack.com/@donnyeatstech",
+          "https://x.com/donnyeatstech",
+          "https://github.com/donnyeatstech"
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a href="#main" class="skip-link">skip to content</a>
+
+  <header class="hdr">
+    <div class="wrap">
+      <a href="/" class="brand">donny eats tech</a>
+      <nav class="nav" aria-label="Primary">
+        <a href="/">home</a>
+        <a href="/writing/" class="active">writing</a>
+        <a href="/work/">work</a>
+        <a href="/projects/">projects</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap" id="main">
+    <article>
+      <header class="post-header">
+        <div class="post-date">22 oct 2026 &middot; 7 min read</div>
+        <h1>Dynamic Memory Allocation and Its Arch Enemy, Fragmentation</h1>
+        <p class="post-sub">Comparing how malloc on macOS (xzone) and Ubuntu (glibc) lay out memory, and how each deals with fragmentation.</p>
+      </header>
+
+      <div class="post-content">
+        <p>Any program that you write, any application that you run, the chances that it internally has some sort of dynamic memory allocation are extremely high. And the chances that the programmer who wrote that application handled it themselves are extremely, extremely low.</p>
+        <p>Modern programming languages like Python, JavaScript, even Golang handle memory allocation and freeing themselves. Python is famous for its arena model, others have their own way of handling memory. But at the lowest rungs of any language's runtime, one thing that's common amongst all languages is that they interact with the machine's memory. Some aspects of memory are already known while a program or an app is being written. Size of a variable, whatever you assign it. That's the minority part of it. The majority is what you don't know.</p>
+        <p>You don't know the size of a request that's coming into your app while you're writing it. Come to think of it, these aren't things that anyone thinks of while writing their app. Now, with the advent of LLM generated code, the thought that goes into the "arcane" concept of dynamic memory allocation is just so minuscule.</p>
+        <p>But this is what runs almost everything we've ever interacted with.</p>
+        <p>Now, C has a bunch of allocators, out of which the most famous one, which you, reader, obviously know, has two functions called malloc and free (malloc has cousins like calloc and realloc, but we aren't going to be talking about them right now). The allocator gets a bunch of malloc and free calls and has to respond to each of them immediately.</p>
+        <p>Fundamental requirements that an allocator must satisfy:</p>
+        <ol><li>Handling arbitrary request sequences.</li><li>Making immediate responses to requests.</li><li>Using only heap memory.</li><li>Aligning blocks (ensuring that you offer a standardized block of memory that's capable of handling any type of data object).</li><li>Not modifying any allocated blocks.</li></ol>
+        <p>The meat of this article is around point 4, about how malloc/free works, and how macOS (M3, 64-bit ARM) and Ubuntu (64-bit, Dockerized) handle memory allocation and fragmentation differently.</p>
+        <p>Any practical allocator needs some data structure that allows it to distinguish block boundaries and to distinguish between allocated and free blocks. Most allocators embed this information in the blocks themselves.</p>
+        <h2>(Generic) anatomy of a block</h2>
+        <p>Every block has three sections: a header, a payload and padding.</p>
+        <pre><code>[ header ][ payload ............ ][ padding ]
+          ^
+          malloc returns this</code></pre>
+        <p>Block sizes are multiples of 8 or 16. The header has information such as the block size, an allocated flag and other, OS-dependent information (we'll see how Ubuntu adds more to the header and how macOS handles this). The payload has whatever you want to put in the memory block. And padding is whatever space remains between the end of your payload and the end of the block.</p>
+        <h2>The test</h2>
+        <p>Everything from here on runs on two setups:</p>
+        <ul><li><strong>macOS:</strong> an M3 MacBook on macOS 26.6. I stopped a test program inside <code>malloc</code> with lldb, and the frame it landed in was <code>xzm_malloc_zone_malloc_type_malloc</code> in <code>libsystem_malloc</code>. <code>xzm</code> is xzone malloc, Apple's newer allocator, and it's what serves ordinary <code>malloc</code> calls there now.</li><li><strong>Linux:</strong> Ubuntu 26.04.1 LTS (glibc 2.43) in a Docker container on the same machine, so it's aarch64.</li></ul>
+        <p>A program that allocates three 5-byte blocks, writes "hello" and "world" into the first two, and then prints the bytes.</p>
+        <p><strong>macOS:</strong></p>
+        <pre><code>a=0x1009fdb00  b=0x1009fdb10  c=0x1009fdb20   malloc_size(a)=16
+
+0x1009fdb00   68 65 6c 6c   'h' 'e' 'l' 'l'    &lt;- a starts here
+0x1009fdb04   6f 00 00 00   'o' + padding
+0x1009fdb08   00 00 00 00   padding
+0x1009fdb0c   00 00 00 00   padding
+0x1009fdb10   77 6f 72 6c   'w' 'o' 'r' 'l'    &lt;- b starts here
+0x1009fdb14   64 00 00 00   'd' + padding
+0x1009fdb18   00 00 00 00   padding
+0x1009fdb1c   00 00 00 00   padding</code></pre>
+        <p>The blocks are exactly 16 bytes apart and the bytes go payload, padding, payload, padding. There's no header anywhere. Block <code>b</code> starts on the byte right after <code>a</code>'s padding ends.</p>
+        <p><strong>glibc:</strong></p>
+        <pre><code>a=0xaaaad46ed010  b=0xaaaad46ed030  c=0xaaaad46ed050   (32 apart)
+
+0xaaaad46ed000: 00 00 00 00 00 00 00 00    prev_size (unused, see below)
+0xaaaad46ed008: 21 00 00 00 00 00 00 00    a's size field = 0x21
+0xaaaad46ed010: 68 65 6c 6c 6f 00 00 00    "hello" + padding   &lt;- a
+0xaaaad46ed018: 00 00 00 00 00 00 00 00    padding
+0xaaaad46ed020: 00 00 00 00 00 00 00 00    padding / b's prev_size
+0xaaaad46ed028: 21 00 00 00 00 00 00 00    b's size field = 0x21
+0xaaaad46ed030: 77 6f 72 6c 64 00 00 00    "world" + padding   &lt;- b
+0xaaaad46ed038: 00 00 00 00 00 00 00 00    padding
+0xaaaad46ed040: 00 00 00 00 00 00 00 00    padding / c's prev_size
+0xaaaad46ed048: 21 00 00 00 00 00 00 00    c's size field = 0x21</code></pre>
+        <h2>Finding</h2>
+        <p>macOS has NO header at all. The blocks sit exactly 16 bytes apart. "hello" starts on the very first byte of its block, 5 bytes of payload and 11 bytes of padding. Then comes "world". xzone groups blocks of the same size into runs and keeps its bookkeeping in a separate metadata region. This hides the allocator's internals from an attacker in case of a buffer overflow attack.</p>
+        <p>Ubuntu does it the old-fashioned way. Right before every payload there's an 8-byte header. Out of a 32-byte block, that's 8 bytes that are already gone. In my test, the header contained 0x21. 0x20 is 32, the block size, i.e., a block is 32 bytes in size (the extra 1 is a flag, more on that below). The remaining 24 bytes held 5 bytes for "hello" ("world" in the next block) and 19 bytes of padding.</p>
+        <pre><code>┌─────────┬───────────────────┬───────────────────┐
+│         │       macOS       │      Ubuntu       │
+├─────────┼───────────────────┼───────────────────┤
+│ Blocks  │ 2 × 16 = 32 bytes │ 2 × 32 = 64 bytes │
+├─────────┼───────────────────┼───────────────────┤
+│ Header  │ 0                 │ 2 × 8 = 16 bytes  │
+├─────────┼───────────────────┼───────────────────┤
+│ Payload │ 2 × 5 = 10 bytes  │ 2 × 5 = 10 bytes  │
+├─────────┼───────────────────┼───────────────────┤
+│ Padding │ 2 × 11 = 22 bytes │ 2 × 19 = 38 bytes │
+└─────────┴───────────────────┴───────────────────┘</code></pre>
+        <p>The same 5-byte malloc calls use twice as much memory on Ubuntu as on macOS.</p>
+        <h2>Inside glibc's 8-byte header</h2>
+        <pre><code>bit:  63 ........ 48 47 ............ 4   3   2   1   0
+      [  always 0  ][   chunk size    ][0 ][A ][M ][P ]</code></pre>
+        <ul><li><strong>Bit 0, P (<code>PREV_INUSE</code>):</strong> is the <em>previous</em> chunk allocated?</li><li><strong>Bit 1, M (<code>IS_MMAPPED</code>):</strong> did this chunk come from its own <code>mmap</code> instead of the heap?</li><li><strong>Bit 2, A (<code>NON_MAIN_ARENA</code>):</strong> does it belong to one of the per-thread arenas rather than the main heap?</li><li><strong>Bit 3</strong> is always 0, because sizes are multiples of 16 and nobody has claimed it.</li><li><strong>Bits 48 to 63</strong> are always 0 in practice. A user process on 64-bit Linux gets 2⁴⁷ bytes of address space on x86-64 and usually 2⁴⁸ on arm64, so no chunk can be big enough to need them.</li></ul>
+        <p>To me, the most interesting one is bit 0. This single bit makes coalescing two free memory chunks so much simpler than on macOS.</p>
+        <h2>Fragmentation</h2>
+        <p>The "padding" that we've seen the allocator add is also called internal fragmentation. You asked for 5 bytes, you got a 16-byte block on macOS (11 wasted) or a 32-byte block on Ubuntu (19 wasted).</p>
+        <p>Then, we have external fragmentation. External fragmentation is what happens when there are enough free bytes in total to fulfill a malloc request, but not in one contiguous block. So even though we have the memory, we can't use it to serve the request.</p>
+        <pre><code>heap:  [used 16][free 16][used 16][free 16][used 16][free 16]
+free bytes: 48
+malloc(32): no hole is 32 bytes, so the heap has to grow</code></pre>
+        <h3>How each OS deals with it</h3>
+        <p>Ubuntu merges. When you free a chunk, glibc looks at both neighbours. First it checks bit 0 of its own header. If the P bit is clear, the previous chunk is free, so glibc uses prev_size to find it and merges the two. Then it checks the next chunk, which needs a look at the header of the chunk 2 chunks over.</p>
+        <p>Consider the following example:</p>
+        <p>Say you free B, and C comes right after it:</p>
+        <pre><code>[ A ][ B ][ C ][ D ]
+       ^ freeing this</code></pre>
+        <ol><li>glibc reads B's size from B's header and jumps forward by that much. That lands on C.</li><li>C's header gives C's size, but nothing in it says whether C is free.</li><li>glibc jumps forward by C's size and lands on D.</li><li>It checks D's P bit, which answers "is the chunk before me (C) in use?"<ul><li>P = 0: C is free, so B and C merge into one chunk.</li><li>P = 1: C is in use, so there's no forward merge.</li></ul></li></ol>
+        <p>macOS doesn't merge at all. Blocks of one size live together in a run, and a freed slot only ever serves its own size class. Nothing gets glued into a bigger block. The upside is that malloc never has to search for a fit, and tiny objects sit packed next to each other with no header.</p>
+        <p>I allocated 100,000 blocks of 200 bytes, then a small guard block after them. Then I freed either every other block (checkerboard) or all of them (contiguous). Then I allocated 50,000 blocks of 400 bytes and looked at how much the heap grew in that last step.</p>
+        <pre><code>┌───────────────┬──────────────┬────────────┐
+│               │ checkerboard │ contiguous │
+├───────────────┼──────────────┼────────────┤
+│ Ubuntu        │ +20,480 KB   │ +0 KB      │
+├───────────────┼──────────────┼────────────┤
+│ macOS         │ +20,480 KB   │ +20,480 KB │
+└───────────────┴──────────────┴────────────┘</code></pre>
+        <p>Checkerboard is a tie. glibc has nothing to merge, and neither will put a 400-byte request in a smaller slot. In the contiguous case, glibc merged the 100,000 freed chunks into one huge region, and the 400-byte blocks went there. This resulted in no heap growth. macOS, on the other hand, grew exactly the way it did in the checkerboard case.</p>
+        <p>macOS favours the heap growing (which can lead to more usage of swap than you'd see in a stock Ubuntu machine).</p>
+        <p>A single C program running on two separate allocators on a single machine. But the way the allocators work is completely different.</p>
+        <p>So, while macOS favours speed, security and small objects, Ubuntu favours reuse.</p>
+        <p class="post-orig">More writing: <a href="/writing/should-you-store-jsons-in-postgres/">Yes, you can store JSONs in Postgres. No, you shouldn’t. Well, it depends</a> &nbsp;&middot;&nbsp; <a href="/writing/from-birthday-paradox-to-consistent-hashing/">From the Birthday Paradox to Consistent Hashing</a>.</p>
+      </div>
+
+      <a class="post-back" href="/writing/">&larr; all writing</a>
+    </article>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-bottom">
+        <span class="fb-brand">donny eats tech</span>
+        <div class="foot-social">
+          <a href="https://github.com/donnyeatstech" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.604-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.62-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+          <a href="https://x.com/donnyeatstech" target="_blank" rel="noopener" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          <a href="https://substack.com/@donnyeatstech" target="_blank" rel="noopener" aria-label="Substack"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg></a>
+          <a href="/work/resume.pdf" target="_blank" rel="noopener" class="fb-resume">résumé</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

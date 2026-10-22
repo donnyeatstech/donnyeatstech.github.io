@@ -6,7 +6,14 @@
     <atom:link href="https://donnyeatstech.com/writing/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Long-form technical deep-dives on distributed systems, databases, and backend engineering.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 17 Jul 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 22 Oct 2026 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Dynamic Memory Allocation and Its Arch Enemy, Fragmentation</title>
+      <link>https://donnyeatstech.com/writing/dynamic-memory-allocation-fragmentation/</link>
+      <guid isPermaLink="true">https://donnyeatstech.com/writing/dynamic-memory-allocation-fragmentation/</guid>
+      <pubDate>Thu, 22 Oct 2026 00:00:00 +0000</pubDate>
+      <description>Comparing how malloc on macOS (xzone) and Ubuntu (glibc) lay out memory, and how each deals with fragmentation.</description>
+    </item>
     <item>
       <title>Yes, you can store JSONs in Postgres. No, you shouldn’t. Well, it depends</title>
       <link>https://donnyeatstech.com/writing/should-you-store-jsons-in-postgres/</link>
