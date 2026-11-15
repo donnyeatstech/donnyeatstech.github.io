@@ -12,9 +12,10 @@
 
 ## Experience
 
-- **Clientell — Senior Software Engineer (Oct 2025 – present):** Owns the AI-agent execution path end to end; built the Salesforce org-indexing platform as an orchestrator/worker system on Pub/Sub (~28k work items/run, autoscaling to 100 Cloud Run instances). Cut the agent's read-tool latency from ~4s to ~800ms. Led the 7-day GCP-to-AWS migration of all 9 services onto ~2 years of AWS credits (no cloud spend for ~2 years, 1 hour of downtime) and moved all infra changes to Terraform via PR review. Clientell is an AI agent for Salesforce deployed across 500+ orgs including Notion, Rakuten, and PwC.
-- **Fae — Backend Engineer (Jan 2025 – Oct 2025):** Rewrote a legacy NestJS codebase into a two-service FastAPI monolith; implemented ABAC authorization with audit logging; halved payment execution latency from ~5s to ~2.5s.
-- **Gida Technologies — Software Engineer (Oct 2022 – Nov 2023):** Built a daily ETL pipeline ingesting ~600k health-insurance records into BigQuery with PGP encryption for India's Ayushman Bharat Digital Mission (ABDM).
+- **Clientell — Senior Software Engineer (Oct 2025 – present):** Owns the AI-agent execution path end to end and runs the design review that gates it on a 10-engineer team. Built the Salesforce org-indexing platform as a phased fan-out pipeline (orchestrator-worker on Pub/Sub, ~28k work items/run, autoscaling to 100 workers), cutting the agent's read-tool latency from ~4s to ~800ms. Built observability and SLOs across all 9 services (time-to-detection from over a day to under 10 minutes). Led the 7-day GCP-to-AWS migration of all 9 services with 1 hour of downtime and moved all infra changes to Terraform via PR review. Clientell is an AI agent for Salesforce deployed across 500+ orgs including Notion, Rakuten, and PwC.
+- **Fae — Backend Engineer (Jan 2025 – Oct 2025):** Halved payment execution latency from ~5s to ~2.5s; implemented ABAC authorization with audit logging; rewrote a legacy NestJS service as two FastAPI services.
+- **Gida Technologies — Software Engineer (Oct 2022 – Nov 2023):** Built a daily ETL pipeline that reads ~600k health-insurance records per run from BigQuery and ingests them into PostgreSQL with PGP encryption for India's Ayushman Bharat Digital Mission (ABDM).
+- **KPMG — Governance, Risk and Compliance Services (Jan 2021 – Nov 2021):** Final-semester intern from January 2021, then full-time Analyst from July 2021 on a conversion offer.
 
 ## Writing
 

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Work — Donny · Backend Engineer (Distributed Systems &amp; Infrastructure)</title>
-  <meta name="description" content="Donny's work history: Senior Software Engineer at Clientell, previously Backend Engineer at Fae. Distributed systems and infra in Python, Go, Postgres, GCP, AWS.">
+  <meta name="description" content="Donny's work history: Senior Software Engineer at Clientell, previously Backend Engineer at Fae and Software Engineer at Gida Technologies. Distributed systems and infra in Python, Go, Postgres, GCP, AWS.">
   <meta name="author" content="Donny">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#ffffff">
@@ -83,11 +83,13 @@
         </div>
         <div class="xp-stack">Python, FastAPI, PostgreSQL, Redis, AWS, ECS, Terraform, GCP, Langfuse, OpenTelemetry</div>
         <div class="xp-desc">
-          Own the agent execution path end to end — tool-call latency to stream delivery to incident response.
-          Built the Salesforce org indexing platform as an orchestrator-worker system on Pub/Sub handling ~28k work items per run,
-          workers autoscaling to 100 Cloud Run instances; the agent's read-tool latency dropped from ~4s to ~800ms.
-          Led the 7-day migration of all 9 services from GCP to AWS onto ~2 years of credits, eliminating cloud spend
-          for that period with 1 hour of downtime. Every infra change since goes through Terraform and PR review.
+          Own the agent execution path end to end, from tool call to stream delivery, and run the weekly design review that gates changes to it on a 10-engineer team.
+          Built the Salesforce org indexing platform as a phased fan-out pipeline (orchestrator-worker on Pub/Sub): discover, fetch and DAG-ordered processing phases into a Postgres sink,
+          ~28k work items per run, autoscaling to 100 workers; the agent's read-tool latency dropped from ~4s to ~800ms.
+          Root-caused a p99 regression (~1.4s against a ~400ms baseline) to SQLAlchemy sessions held across an async boundary.
+          Made SSE token streaming survive bursty OpenAI output: forced-kill failures from ~4/day to 0 across ~500 streams.
+          Built observability from zero across all 9 services; median time-to-detection went from over a day to under 10 minutes.
+          Led the 7-day migration of all 9 services from GCP to AWS with 1 hour of downtime, and moved the team to Terraform-only infra via PR.
         </div>
       </div>
 
@@ -99,9 +101,10 @@
         </div>
         <div class="xp-stack">FastAPI, PostgreSQL, Docker, AWS ECS, GitHub Actions</div>
         <div class="xp-desc">
-          Rewrote a legacy NestJS codebase into a two-service FastAPI monolith with dependency injection,
-          dropping refactors worth 8-10 story points per sprint. Implemented ABAC authorization with audit logging.
-          Halved payment execution latency from ~5s to ~2.5s by moving external calls off the critical path.
+          Halved payment execution latency from ~5s to ~2.5s by moving external payment calls off the critical path.
+          Implemented ABAC authorization with an audit log that ties every operation to the acting identity.
+          Rewrote a legacy NestJS service as two FastAPI services with dependency injection,
+          ending refactors that cost the team 8-10 story points per sprint.
         </div>
       </div>
 
@@ -113,8 +116,16 @@
         </div>
         <div class="xp-stack">Python, Node.js, Google BigQuery, PostgreSQL</div>
         <div class="xp-desc">
-          Built a daily ETL pipeline ingesting ~600k health insurance records into BigQuery with PGP encryption,
+          Built a daily ETL pipeline that reads ~600k health insurance records per run from BigQuery and ingests them into PostgreSQL with PGP encryption,
           meeting ABDM regulatory requirements. Automated recurring analyst reporting, removing ~20 hours/week of manual effort.
+        </div>
+      </div>
+
+      <div class="xp">
+        <div class="xp-meta">jan 2021 – nov 2021</div>
+        <div class="xp-role">Analyst — KPMG, Governance, Risk and Compliance Services</div>
+        <div class="xp-desc">
+          Joined as a final-semester intern in January 2021 and moved to a full-time Analyst role on a conversion offer in July 2021.
         </div>
       </div>
     </section>
